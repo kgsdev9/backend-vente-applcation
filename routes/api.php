@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\Document\DocumentController;
 use App\Http\Controllers\Api\CodeDevise\CodeDeviseController;
 use App\Http\Controllers\Api\Departement\DepartementController;
 use App\Http\Controllers\Api\ModeReglement\ModeReglementController;
+use App\Http\Controllers\Api\Roles\RoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,3 +61,4 @@ Route::get('/statistique', [StatistiqueController::class, 'index']);
 Route::get('download-reference/{id}', [ImpressionController::class, 'impressionsingleFacture']);
 Route::resource('/famillearticle', FamilleArticleController::class);
 Route::get('/report/facture/export', [RapportController::class, 'exportpdf'])->name('factures.report');
+Route::resource('roles', RoleController::class);

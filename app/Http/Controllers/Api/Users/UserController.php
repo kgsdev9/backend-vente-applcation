@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Users;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Builder;
 
 class UserController extends Controller
@@ -26,10 +27,7 @@ class UserController extends Controller
                       ->orWhereDate('created_at', '=', $searchTerm); // exemple: recherche par date de creation
             });
         }
-
-        // Paginer les résultats avec une taille de page par défaut
         $users = $query->paginate($request->query('per_page', 10));
-
         return response()->json($users);
     }
 
@@ -52,9 +50,14 @@ class UserController extends Controller
     public function store(Request $request)
     {
         User::create([
-            'name'=>  $request->name,
+            'nom'=>  $request->nom,
+            'prenom'=> $request->prenom,
+            'password'=> Hash::make($request->password) ?? 12345,
+            'telephone'=> $request->telephone,
             'email'=> $request->email,
-            'password'=> $request->password
+            'role_id'=> $request->role_id,
+            'departement_id'=> $request->departement_id,
+            'poste'=> $request->poste
         ]);
 
         return response()->json('utilisateur créé avec success');

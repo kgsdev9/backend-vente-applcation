@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use SebastianBergmann\Comparator\TypeComparator;
 
 class User extends Authenticatable
 {
@@ -18,10 +18,34 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'nom',
+        'prenom',
+        'telephone',
+        'contact_whattsap',
         'email',
+        'poste',
+        'departement_id',
+        'typecontrat_id',
+        'role_id',
+        'dateembauche',
         'password',
     ];
+
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id');
+    }
+
+    public function departement()
+    {
+        return $this->belongsTo(Departement::class, 'departement_id');
+    }
+
+    public function typecontrat()
+    {
+        return $this->belongsTo(TypeComparator::class, 'typecontrat_id');
+    }
 
     /**
      * The attributes that should be hidden for serialization.
