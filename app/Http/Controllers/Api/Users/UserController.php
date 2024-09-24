@@ -82,7 +82,12 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $users = User::findOrFail($id); // Utilisation de findOrFail pour gérer les cas où la facture n'est pas trouvée
+
+
+        return response()->json([
+            'users' => $users,
+        ]);
     }
 
     /**
@@ -92,9 +97,22 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        User::where('id', '=' ,$request->iduser)->update([
+            'nom'=>  $request->nom,
+            'prenom'=> $request->prenom,
+            'password'=> Hash::make($request->password) ?? 12345,
+            'telephone'=> $request->telephone,
+            'email'=> $request->email,
+            'role_id'=> $request->role_id,
+            'departement_id'=> $request->departement_id,
+            'poste'=> $request->poste
+        ]);
+
+        return response()->json([
+            'message' => 'Utilisateur modifié avec succes',
+        ]);
     }
 
     /**
@@ -105,6 +123,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $client =  User::find($id);
+        $client->delete();
+       return response()->json('Utilisateur supprimé avec succes');
     }
 }
