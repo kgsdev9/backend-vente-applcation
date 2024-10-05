@@ -53,6 +53,7 @@ Route::post('login', [AuthController::class, 'login']);
 Route::resource('/factures', FactureController::class);
 Route::resource('/codedevise', CodeDeviseController::class);
 Route::resource('/departements', DepartementController::class);
+Route::get('/fetch/desginationwithpagination', [DepartementController::class, 'fetchDepartementAllWithPagination']);
 Route::resource('/articles', ArticleController::class);
 Route::resource('/dossiers', DossierController::class);
 Route::resource('/documents', DocumentController::class);

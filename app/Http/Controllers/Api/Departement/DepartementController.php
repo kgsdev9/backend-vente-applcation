@@ -20,6 +20,21 @@ class DepartementController extends Controller
         return response()->json($users);
     }
 
+    public function fetchDepartementAllWithPagination(Request $request) {
+
+        $query = Departement::orderByDesc('created_at');
+        // Gérer les critères de recherche
+        if ($request->has('search')) {
+            $searchTerm = $request->search;
+            $query->where(function (Builder $query) use ($searchTerm) {
+                $query->where('nom', 'like', "%$searchTerm%");
+
+            });
+        }
+        $departement = $query->paginate($request->query('per_page', 10));
+        return response()->json($departement);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -38,7 +53,10 @@ class DepartementController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Departement::create([
+            'nom'=>  $request->nom,
+        ]);
+        return response()->json('departement créé avec success');
     }
 
     /**
@@ -70,9 +88,17 @@ class DepartementController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+
+
+        Departement::where('id', '=' ,$request->id)->update([
+            'nom'=>  $request->nom,
+        ]);
+
+        return response()->json([
+            'message' => 'Departement modifié avec succes',
+        ]);
     }
 
     /**
@@ -83,6 +109,8 @@ class DepartementController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $client =  Departement::find($id);
+        $client->delete();
+       return response()->json('Departement supprimé avec succes');
     }
 }
