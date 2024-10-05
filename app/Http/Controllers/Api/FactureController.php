@@ -70,11 +70,11 @@ class FactureController extends Controller
             // Créez une nouvelle instance de facture
             $invoice = new Facture();
             $invoice->numeroFacture =$numerocommande;
-            $invoice->client_id = $data['client_id'] ?? '';
+            $invoice->client_id = 2;
             $invoice->mode_reglement_id = $data['modeReglementid'] ?? '';
             $invoice->date_echance = $data['dateEcheance'] ?? '';
             $invoice->codedevise_id = $data['codedevise'] ?? '';
-            $invoice->user_id = 2; // administrateur
+            $invoice->user_id = 61; // administrateur
             $invoice->remise = $data['remise'] ?? 0; // Assurez-vous que remise a une valeur par défaut si elle est absente
             $invoice->save();
 
