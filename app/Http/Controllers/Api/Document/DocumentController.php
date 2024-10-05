@@ -36,37 +36,34 @@ class DocumentController extends Controller
      */
     public function store(Request $request)
     {
+        // Validation des fichiers
 
-        foreach ($request->file('files') as $file)
-        {
-           $fileName =  $file->getClientOriginalName();
+        // dd($request->all());
+        // Vérifiez si des fichiers ont été téléchargés
+        if (!$request->hasFile('files')) {
+            return response()->json(['message' => 'Aucun fichier téléchargé.'], 400);
+        }
+
+        $uploadedFiles = [];
+
+        foreach ($request->file('files') as $file) {
+            // Générer un nom unique pour le fichier
+            $fileName = time() . '_' . $file->getClientOriginalName();
+
+            // Stocker le fichier
             $file->storeAs('documents', $fileName, 'public');
-            Document::create([
-                'nom'=> $fileName,
+
+            // Enregistrer les informations du document dans la base de données
+            $uploadedFiles[] = Document::create([
+                'nom' => $fileName,
                 'fichierdocument' => $fileName,
-                'dossier_id'=> $request->dossier_id,
+                'dossier_id' => $request->dossier_id,
             ]);
         }
 
-        return response()->json(['message' => 'Fichiers téléchargés avec succès'], 200);
-
-        // dd($request->all());
-
-        // $dossierId = $request->input('dossier_id');
-        // $files = $request->file('files');
-
-        // // if (!is_array($files)) {
-        // //     $files = [$files];
-        // // }
-
-        // foreach ($files as $file)
-        // {
-        //     $filePath = $file->store('uploads', 'public');
-        //     Document::create(['dossier_id' => $dossierId, 'fichierdocument' => $filePath, 'nom'=>rand(100, 400)]);
-        // }
-
-        return response()->json(['message' => 'Fichiers téléchargés avec succès'], 200);
+        return response()->json(['message' => 'Fichiers téléchargés avec succès', 'files' => $uploadedFiles], 200);
     }
+
 
     /**
      * Display the specified resource.

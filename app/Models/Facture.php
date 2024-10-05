@@ -16,7 +16,12 @@ class Facture extends Model
         'mode_reglement_id',
         'client_id',
         'codedevise_id',
-        'user_id'
+        'user_id',
+        'tva',
+        'adsci',
+        'montantht',
+        'montantttc',
+
     ];
 
     public function client()
