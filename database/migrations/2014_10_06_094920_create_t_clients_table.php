@@ -25,7 +25,8 @@ class CreateTClientsTable extends Migration
             $table->string('cptcompclient')->nullable();
             $table->string('numerodecompte')->nullable();
             $table->string('capital')->nullable();
-            $table->string('modelivraison')->nullable();
+            $table->unsignedBigInteger('modelivraison')->nullable();
+            $table->string('regimefiscal')->nullable();
             $table->string('codepostal')->nullable();
             $table->unsignedBigInteger('tcodedevise_id')->nullable();
             $table->foreign('tcodedevise_id')->references('id')->on('tcode_devises');

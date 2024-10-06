@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TcommandeFourniseur extends Model
+class TArrivagCommandeFournsseur extends Model
 {
     use HasFactory;
 
@@ -14,6 +14,10 @@ class TcommandeFourniseur extends Model
         'tfourniseur_id',
         'qtecmde',
         'datecmde',
+        'montantht',
+        'montanttc',
+        'montnadsci',
+        'montanttva',
         'datereceptioncmde',
         'statutcmde',
     ];
@@ -29,8 +33,5 @@ class TcommandeFourniseur extends Model
         return $prixApresRemise * $this->quantite;
     }
 
-    
+
 }
-
-
-

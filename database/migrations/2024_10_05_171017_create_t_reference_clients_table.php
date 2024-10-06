@@ -16,7 +16,7 @@ class CreateTReferenceClientsTable extends Migration
         Schema::create('t_reference_clients', function (Blueprint $table) {
             $table->id();
             $table->string('reference');
-            $table->integer('prix');
+            $table->integer('prixunitaire');
             $table->unsignedBigInteger('tclient_id');
             $table->foreign('tclient_id')->references('id')->on('tclients');
             $table->timestamps();

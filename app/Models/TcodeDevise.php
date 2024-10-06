@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class TcodeDevise extends Model
 {
     use HasFactory;
-
     protected $fillable = [
         'libellecodedevise',
     ];

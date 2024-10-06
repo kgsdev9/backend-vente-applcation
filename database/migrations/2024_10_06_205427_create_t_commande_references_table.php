@@ -35,6 +35,7 @@ class CreateTCommandeReferencesTable extends Migration
         });
     }
 
+   
     /**
      * Reverse the migrations.
      *

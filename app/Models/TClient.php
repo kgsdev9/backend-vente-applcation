@@ -22,7 +22,7 @@ class TClient extends Model
         'capital',
         'codepostal',
         'regimefiscal',
-        'codedevise',
+        'tcodedevise',
         'sitelivraison',
     ];
 }

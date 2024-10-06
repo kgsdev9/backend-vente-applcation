@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTCommandeFournisseurLignesTable extends Migration
+class CreateTArrivagCommandeFournsseursTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateTCommandeFournisseurLignesTable extends Migration
      */
     public function up()
     {
-        Schema::create('t_commande_fournisseur_lignes', function (Blueprint $table) {
+        Schema::create('t_arrivag_commande_fournsseurs', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
         });
@@ -26,6 +26,6 @@ class CreateTCommandeFournisseurLignesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('t_commande_fournisseur_lignes');
+        Schema::dropIfExists('t_arrivag_commande_fournsseurs');
     }
 }

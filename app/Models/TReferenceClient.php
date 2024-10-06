@@ -10,7 +10,9 @@ class TReferenceClient extends Model
     use HasFactory;
     protected $fillable = [
         'reference',
-        'prix',
+        'prixunitaire',
         'client_id'
     ];
 }
+
+
