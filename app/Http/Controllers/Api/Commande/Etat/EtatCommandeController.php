@@ -112,7 +112,7 @@ class EtatCommandeController extends Controller
          ->header('Content-Type', 'application/pdf')
          ->header('Content-Disposition', 'attachment; filename="facture.pdf"');
 
-         
+
          // Sortie du PDF
          $pdf->Output('I', 'facture.pdf');
          exit;

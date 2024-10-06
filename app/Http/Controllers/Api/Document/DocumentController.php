@@ -36,13 +36,15 @@ class DocumentController extends Controller
      */
     public function store(Request $request)
     {
-        // Validation des fichiers
 
         // dd($request->all());
+
+        // Validation des fichiers
+        // dd($request->all());
         // Vérifiez si des fichiers ont été téléchargés
-        if (!$request->hasFile('files')) {
-            return response()->json(['message' => 'Aucun fichier téléchargé.'], 400);
-        }
+        // if (!$request->hasFile('files')) {
+        //     return response()->json(['message' => 'Aucun fichier téléchargé.'], 400);
+        // }
 
         $uploadedFiles = [];
 
