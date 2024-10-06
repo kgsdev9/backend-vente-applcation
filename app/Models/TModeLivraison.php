@@ -10,9 +10,7 @@ class TModeLivraison extends Model
     use HasFactory;
 
     protected $fillable = [
-        'libellezonelivraison',
-        'adressegeo',
-        'adressepostale',
+        'libellemodelivraison',
     ];
 
 }

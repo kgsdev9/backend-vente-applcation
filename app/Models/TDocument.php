@@ -5,12 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TReferenceClient extends Model
+class TDocument extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        'reference',
-        'prix',
-        'client_id'
+        'libelledocument',
+        'fichierdocument',
+        'dossier_id'
     ];
 }

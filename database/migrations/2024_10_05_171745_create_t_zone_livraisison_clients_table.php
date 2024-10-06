@@ -15,6 +15,7 @@ class CreateTZoneLivraisisonClientsTable extends Migration
     {
         Schema::create('t_zone_livraisison_clients', function (Blueprint $table) {
             $table->id();
+            $table->string('libelle');
             $table->timestamps();
         });
     }

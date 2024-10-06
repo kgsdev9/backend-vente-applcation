@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTTarifQuantitesTable extends Migration
+class CreateTventeDirectLignesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,18 @@ class CreateTTarifQuantitesTable extends Migration
      */
     public function up()
     {
-        Schema::create('t_tarif_quantites', function (Blueprint $table) {
+        Schema::create('tvente_direct_lignes', function (Blueprint $table) {
             $table->id();
-            $table->string('reference');
+            $table->integer('numvte');
+            $table->integer('numprofvte');
+            $table->integer('numligne');
+            $table->integer('libtiers');
+            $table->integer('telephone');
+            $table->integer('reference');
             $table->integer('prixunitaire');
             $table->integer('quantite');
             $table->integer('remiseligne');
-            $table->integer('montantht');
-            $table->string('numetudetech');
+            $table->string('montantht');
             $table->timestamps();
         });
     }
@@ -32,6 +36,6 @@ class CreateTTarifQuantitesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('t_tarif_quantites');
+        Schema::dropIfExists('tvente_direct_lignes');
     }
 }

@@ -5,12 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TReferenceClient extends Model
+class TEtudetechnique extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        'reference',
-        'prix',
-        'client_id'
+        'numetudetech',
+        'client_id',
+        'delaideproduction',
+        'statutet',
     ];
 }

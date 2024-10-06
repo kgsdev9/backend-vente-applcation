@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTModeLivraisonsTable extends Migration
+class CreateTEtudetechniquesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,12 @@ class CreateTModeLivraisonsTable extends Migration
      */
     public function up()
     {
-        Schema::create('t_mode_livraisons', function (Blueprint $table) {
+        Schema::create('t_etudetechniques', function (Blueprint $table) {
             $table->id();
-            $table->string('libellemodelivraison');
+            $table->string('numetudetech');
+            $table->unsignedBigInteger('tclient_id');
+            $table->boolean('statutet')->default('0');
+            $table->foreign('tclient_id')->references('id')->on('tclients');
             $table->timestamps();
         });
     }
@@ -27,6 +30,6 @@ class CreateTModeLivraisonsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('t_mode_livraisons');
+        Schema::dropIfExists('t_etudetechniques');
     }
 }

@@ -13,7 +13,8 @@ class TZoneLivraisisonClient extends Model
         'libellezonelivraison',
         'adressegeo',
         'adressepostale',
+        'client_id',
+        'telephone',
+        'fax',
     ];
-
-
 }

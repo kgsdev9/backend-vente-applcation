@@ -15,12 +15,19 @@ class CreateTReferenceClientsTable extends Migration
     {
         Schema::create('t_reference_clients', function (Blueprint $table) {
             $table->id();
+            $table->string('reference');
+            $table->integer('prix');
+            $table->unsignedBigInteger('tclient_id');
+            $table->foreign('tclient_id')->references('id')->on('tclients');
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
+     *   'reference',
+        'prix',
+        'client_id'
      *
      * @return void
      */

@@ -5,12 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TReferenceClient extends Model
+class TfactureLigne extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'prixunitaire',
         'reference',
-        'prix',
-        'client_id'
+        'quantite',
+        'remeligne',
+        'tva',
+        'montantht',
+        'montantadsci',
+        'montanttc'
     ];
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTModeLivraisonsTable extends Migration
+class CreateTMontantTransportsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class CreateTModeLivraisonsTable extends Migration
      */
     public function up()
     {
-        Schema::create('t_mode_livraisons', function (Blueprint $table) {
+        Schema::create('t_montant_transports', function (Blueprint $table) {
             $table->id();
-            $table->string('libellemodelivraison');
+            $table->string('montanttransport');
+            $table->unsignedBigInteger('tfacture_id');
+            $table->foreign('tfacture_id')->references('id')->on('tfactures');
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ class CreateTModeLivraisonsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('t_mode_livraisons');
+        Schema::dropIfExists('t_montant_transports');
     }
 }

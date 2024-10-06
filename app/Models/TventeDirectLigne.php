@@ -5,12 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TReferenceClient extends Model
+class TventeDirectLigne extends Model
 {
     use HasFactory;
+
     protected $fillable = [
+        'numvte',
+        'numprofvte',
         'reference',
-        'prix',
-        'client_id'
+        'qte',
+        'prixunitaire',
+        'remiseligne',
+        'montantht',
+        'montantttc',
     ];
 }
