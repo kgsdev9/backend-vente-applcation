@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class TModeLivraison extends Model
 {
     use HasFactory;
-
     protected $fillable = [
         'libellemodelivraison',
     ];

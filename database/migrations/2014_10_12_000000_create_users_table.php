@@ -23,10 +23,10 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('poste');
-            $table->unsignedBigInteger('trole_id');
+            $table->unsignedBigInteger('role_id');
             $table->unsignedBigInteger('tdepartment_id');
-            $table->foreign('trole_id')->references('id')->on('troles');
-            $table->foreign('tdepartment_id')->references('id')->on('tdepartements');
+            $table->foreign('role_id')->references('id')->on('troles');
+            $table->foreign('tdepartment_id')->references('id')->on('t_departements');
             $table->rememberToken();
             $table->timestamps();
         });

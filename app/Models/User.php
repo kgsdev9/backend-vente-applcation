@@ -21,25 +21,23 @@ class User extends Authenticatable
         'nom',
         'prenom',
         'telephone',
-        'contact_whattsap',
+        'nomcomptentic',
         'email',
         'poste',
-        'departement_id',
-        'typecontrat_id',
-        'role_id',
-        'dateembauche',
         'password',
+        'tdepartment_id',
+        'role_id',
     ];
 
 
     public function role()
     {
-        return $this->belongsTo(Role::class, 'role_id');
+        return $this->belongsTo(Trole::class, 'role_id');
     }
 
     public function departement()
     {
-        return $this->belongsTo(Departement::class, 'departement_id');
+        return $this->belongsTo(TDepartement::class, 'departement_id');
     }
 
     public function typecontrat()

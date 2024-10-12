@@ -18,7 +18,7 @@ class CreateTDossiersTable extends Migration
             $table->string('libelledossier');
             $table->string('codedossier')->nullable();
             $table->unsignedBigInteger('tdepartement_id')->nullable();
-            $table->foreign('tdepartement_id')->references('id')->on('tdepartements');
+            $table->foreign('tdepartement_id')->references('id')->on('t_departements');
             $table->timestamps();
         });
     }

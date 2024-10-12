@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class TMontantTransport extends Model
 {
     use HasFactory;
-
     protected $fillable = [
         'montanttransport',
         'tventedirect_id',

@@ -15,6 +15,7 @@ class CreateTcodeDevisesTable extends Migration
     {
         Schema::create('tcode_devises', function (Blueprint $table) {
             $table->id();
+            $table->string('libellecodedevise');
             $table->timestamps();
         });
     }

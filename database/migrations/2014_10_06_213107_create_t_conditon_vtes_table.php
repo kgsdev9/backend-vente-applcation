@@ -15,6 +15,7 @@ class CreateTConditonVtesTable extends Migration
     {
         Schema::create('t_conditon_vtes', function (Blueprint $table) {
             $table->id();
+            $table->string('libellecondtionvte');
             $table->timestamps();
         });
     }

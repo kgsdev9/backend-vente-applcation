@@ -18,7 +18,7 @@ class CreateTEtudetechniquesTable extends Migration
             $table->string('numetudetech');
             $table->unsignedBigInteger('tclient_id');
             $table->boolean('statutet')->default('0');
-            $table->foreign('tclient_id')->references('id')->on('tclients');
+            $table->foreign('tclient_id')->references('id')->on('t_clients');
             $table->timestamps();
         });
     }

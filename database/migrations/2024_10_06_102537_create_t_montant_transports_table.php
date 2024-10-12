@@ -17,7 +17,7 @@ class CreateTMontantTransportsTable extends Migration
             $table->id();
             $table->string('montanttransport');
             $table->unsignedBigInteger('tfacture_id');
-            $table->foreign('tfacture_id')->references('id')->on('tfactures');
+            $table->foreign('tfacture_id')->references('id')->on('t_factures');
             $table->timestamps();
         });
     }

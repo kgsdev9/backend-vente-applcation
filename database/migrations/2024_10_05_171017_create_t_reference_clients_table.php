@@ -17,8 +17,8 @@ class CreateTReferenceClientsTable extends Migration
             $table->id();
             $table->string('reference');
             $table->integer('prixunitaire');
-            $table->unsignedBigInteger('tclient_id');
-            $table->foreign('tclient_id')->references('id')->on('tclients');
+            $table->unsignedBigInteger('t_client_id');
+            $table->foreign('t_client_id')->references('id')->on('t_clients');
             $table->timestamps();
         });
     }

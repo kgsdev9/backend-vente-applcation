@@ -11,7 +11,7 @@ class TReferenceClient extends Model
     protected $fillable = [
         'reference',
         'prixunitaire',
-        'client_id'
+        't_client_id'
     ];
 }
 

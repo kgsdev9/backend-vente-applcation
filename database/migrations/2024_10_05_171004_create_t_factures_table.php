@@ -31,10 +31,10 @@ class CreateTFacturesTable extends Migration
             $table->unsignedBigInteger('tregimevente_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('tconditonvte_id')->nullable();
-            $table->foreign('tclient_id')->references('id')->on('clients');
+            $table->foreign('tclient_id')->references('id')->on('t_clients');
             $table->foreign('tmodereglement_id')->references('id')->on('tmode_reglements');
             $table->foreign('tcodedevise_id')->references('id')->on('tcode_devises');
-            $table->foreign('tregimevente_id')->references('id')->on('tcode_devises');
+            $table->foreign('tregimevente_id')->references('id')->on('tregime_ventes');
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('tconditonvte_id')->references('id')->on('t_conditon_vtes');
             $table->timestamps();
