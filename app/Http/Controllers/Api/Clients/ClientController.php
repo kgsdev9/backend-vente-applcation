@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Clients;
 
 use App\Models\Facture;
+use App\Traits\RechercheAndPagination;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\TClient;
@@ -10,6 +11,8 @@ use App\Models\TFacture;
 
 class ClientController extends Controller
 {
+
+    use RechercheAndPagination;
     /**
      * Display a listing of the resource.
      *
@@ -21,13 +24,29 @@ class ClientController extends Controller
         return response()->json($clients);
     }
 
-    public function allClients(Request $request)  {
-        $query = TClient::orderByDesc('created_at');
-        $factures = $query->paginate($request->query('per_page', 10)); // Modifier la taille de page par défaut ici
-        return response()->json($factures);
+    // public function allClients(Request $request)  {
+    //     $query = TClient::orderByDesc('created_at');
+    //     $factures = $query->paginate($request->query('per_page', 10)); // Modifier la taille de page par défaut ici
+    //     return response()->json($factures);
 
+    // }
+
+    public function allClients(Request $request)
+    {
+        // Créer la requête pour les utilisateurs (instance de Builder)
+        $query = TClient::query()->orderByDesc('created_at');
+
+        // Champs sur lesquels on peut effectuer une recherche
+        $critererecherche = ['libtiers', 'email', 'telephone','created_at'];
+
+        // Relations à charger
+        $relations = ['regimefiscal', 'codedevise'];
+
+        // Appliquer la recherche et la pagination via le trait
+        $clients = $this->applySearchAndPagination($query, $request, $critererecherche, $relations);
+
+        return response()->json($clients);
     }
-
     /**
      * Show the form for creating a new resource.
      *

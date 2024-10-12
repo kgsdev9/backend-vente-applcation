@@ -20,17 +20,17 @@ class CreateTClientsTable extends Migration
             $table->string('adressepostale')->nullable();
             $table->string('adressegeo')->nullable();
             $table->string('fax')->nullable();
+            $table->string('email')->nullable();
             $table->string('telephone')->nullable();
             $table->string('numerocomtribuabe')->nullable();
-            $table->string('cptcompclient')->nullable();
             $table->string('numerodecompte')->nullable();
             $table->string('capital')->nullable();
+            $table->string('sitelivraison')->nullable();
             $table->unsignedBigInteger('modelivraison')->nullable();
-            $table->string('regimefiscal')->nullable();
-            $table->string('codepostal')->nullable();
+            $table->unsignedBigInteger('tregimefiscal_id')->nullable();
             $table->unsignedBigInteger('tcodedevise_id')->nullable();
             $table->foreign('tcodedevise_id')->references('id')->on('tcode_devises');
-            $table->string('sitelivraison')->nullable();
+            $table->foreign('tregimefiscal_id')->references('id')->on('tregime_fiscals');
             $table->timestamps();
         });
     }

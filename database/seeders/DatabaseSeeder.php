@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
         $this->call(TCodeDeviseSeeder::class);
         $this->call(TConditionVenteSeeder::class);
         $this->call(TDepartementSeeder::class);
+        $this->call(RegimeFiscalSeeder::class);
         \App\Models\User::factory(30)->create();
+        \App\Models\TClient::factory(30)->create();
     }
 }

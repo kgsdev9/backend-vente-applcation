@@ -15,14 +15,21 @@ class TClient extends Model
         'adressepostale',
         'adressegeo',
         'fax',
+        'email',
         'telephone',
         'numerocomtribuabe',
-        'cptcompclient',
         'numerodecompte',
         'capital',
-        'codepostal',
-        'regimefiscal',
-        'tcodedevise',
+        'tregimefiscal_id',
+        'tcodedevise_id',
         'sitelivraison',
     ];
+
+    public function regimefiscal(){
+        return $this->belongsTo(TregimeFiscal::class, 'tregimefiscal_id');
+    }
+
+    public function codedevise(){
+        return $this->belongsTo(TcodeDevise::class, 'tcodedevise_id');
+    }
 }
