@@ -21,7 +21,8 @@ class DepartementController extends Controller
         return response()->json($users);
     }
 
-    public function fetchDepartementAllWithPagination(Request $request) {
+    public function fetchDepartementAllWithPagination(Request $request)
+    {
 
         $query = TDepartement::orderByDesc('created_at');
         // Gérer les critères de recherche

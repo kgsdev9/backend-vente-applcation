@@ -12,4 +12,12 @@ class TDepartement extends Model
     protected $fillable = [
         'libelledepartement',
     ];
+
+    public function users()
+    {
+        return $this->hasMany(User::class, 'tdepartment_id'); // Correction ici
+    }
+
+
+  
 }

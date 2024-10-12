@@ -42,7 +42,7 @@ Route::middleware('auth:sanctum')->get('/user', [AuthController::class, 'user'])
 
 
 
-Route::resource('users', UserController::class);
+
 Route::resource('clients', ClientController::class);
 Route::get('/allclients', [ClientController::class, 'allClients']);
 Route::resource('modereglements', ModeReglementController::class);
@@ -62,3 +62,21 @@ Route::resource('/famillearticle', FamilleArticleController::class);
 Route::get('/report/facture/export', [RapportController::class, 'exportpdf'])->name('factures.report');
 Route::resource('roles', RoleController::class);
 Route::get('/invoice/{id}/generate', [EtatCommandeController::class, 'generate']);
+
+
+
+
+Route::prefix('users')->name('users.')->group(function() {
+    // Route personnalisée pour printall
+    Route::get('/printall', [UserController::class, 'printall'])->name('printall');
+
+    // Route personnalisée pour exportusers
+    Route::get('/exportusers', [UserController::class, 'exportusers'])->name('exportusers');
+});
+
+Route::resource('users', UserController::class);
+
+
+
+
+

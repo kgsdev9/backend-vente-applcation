@@ -40,11 +40,7 @@ class User extends Authenticatable
         return $this->belongsTo(TDepartement::class, 'tdepartment_id');
     }
 
-    public function typecontrat()
-    {
-        return $this->belongsTo(TypeComparator::class, 'typecontrat_id');
-    }
-
+   
     /**
      * The attributes that should be hidden for serialization.
      *
