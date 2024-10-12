@@ -56,12 +56,13 @@ class UserController extends Controller
             'telephone'=> $request->telephone,
             'email'=> $request->email,
             'role_id'=> $request->role_id,
-            'departement_id'=> $request->departement_id,
+            'tdepartment_id'=> $request->departement_id,
             'poste'=> $request->poste
         ]);
 
         return response()->json('utilisateur créé avec success');
     }
+
 
     /**
      * Display the specified resource.
@@ -106,7 +107,7 @@ class UserController extends Controller
             'telephone'=> $request->telephone,
             'email'=> $request->email,
             'role_id'=> $request->role_id,
-            'departement_id'=> $request->departement_id,
+            'tdepartment_id'=> $request->departement_id,
             'poste'=> $request->poste
         ]);
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Departement;
 use App\Models\Departement;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\TDepartement;
 use Illuminate\Database\Eloquent\Builder;
 
 class DepartementController extends Controller
@@ -16,13 +17,13 @@ class DepartementController extends Controller
      */
     public function index(Request $request)
     {
-        $users =Departement::orderByDesc('created_at')->get();
+        $users =TDepartement::orderByDesc('created_at')->get();
         return response()->json($users);
     }
 
     public function fetchDepartementAllWithPagination(Request $request) {
 
-        $query = Departement::orderByDesc('created_at');
+        $query = TDepartement::orderByDesc('created_at');
         // Gérer les critères de recherche
         if ($request->has('search')) {
             $searchTerm = $request->search;
@@ -53,7 +54,7 @@ class DepartementController extends Controller
      */
     public function store(Request $request)
     {
-        Departement::create([
+        TDepartement::create([
             'nom'=>  $request->nom,
         ]);
         return response()->json('departement créé avec success');
@@ -92,7 +93,7 @@ class DepartementController extends Controller
     {
 
 
-        Departement::where('id', '=' ,$request->id)->update([
+        TDepartement::where('id', '=' ,$request->id)->update([
             'nom'=>  $request->nom,
         ]);
 
@@ -109,7 +110,7 @@ class DepartementController extends Controller
      */
     public function destroy($id)
     {
-        $client =  Departement::find($id);
+        $client =  TDepartement::find($id);
         $client->delete();
        return response()->json('Departement supprimé avec succes');
     }

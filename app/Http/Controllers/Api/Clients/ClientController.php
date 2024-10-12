@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Api\Clients;
 
-use App\Models\Client;
 use App\Models\Facture;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\TClient;
+use App\Models\TFacture;
 
 class ClientController extends Controller
 {
@@ -16,12 +17,12 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $clients = Client::all();
+        $clients = TClient::all();
         return response()->json($clients);
     }
 
     public function allClients(Request $request)  {
-        $query = Client::orderByDesc('created_at');
+        $query = TClient::orderByDesc('created_at');
         $factures = $query->paginate($request->query('per_page', 10)); // Modifier la taille de page par défaut ici
         return response()->json($factures);
 
@@ -45,10 +46,10 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-      
+
         $codeclient =  "CO". rand(1000, 300400);
 
-        Client::create([
+        TClient::create([
             'nom' => $request->nom,
             'prenom' => $request->prenom,
             'city_id' => 1,
@@ -73,8 +74,8 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        $client = Client::findOrFail($id);
-        $listefactures = Facture::where('client_id', $client->id)->with('modereglement', 'codedevise')->get();
+        $client = TClient::findOrFail($id);
+        $listefactures = TFacture::where('client_id', $client->id)->with('modereglement', 'codedevise')->get();
 
         return response()->json([
             'listefactures'=> $listefactures,
@@ -91,7 +92,7 @@ class ClientController extends Controller
      */
     public function edit($id)
     {
-        $client = Client::findOrFail($id);
+        $client = TClient::findOrFail($id);
         return response()->json([
             'client' => $client
         ]);
@@ -106,7 +107,7 @@ class ClientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Client::where('id', '=' ,$id)->update([
+        TClient::where('id', '=' ,$id)->update([
             'nom' => $request->nom,
             'prenom' => $request->prenom,
             'adresse' => $request->adresse,
@@ -125,7 +126,7 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-       $client =  Client::find($id);
+       $client =  TClient::find($id);
        $client->delete();
        return response()->json('client supprimé avec success');
     }

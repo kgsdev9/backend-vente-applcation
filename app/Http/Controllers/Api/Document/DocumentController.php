@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Document;
 
 use App\Http\Controllers\Controller;
 use App\Models\Document;
+use App\Models\TDocument;
 use Illuminate\Http\Request;
 
 class DocumentController extends Controller
@@ -56,7 +57,7 @@ class DocumentController extends Controller
             $file->storeAs('documents', $fileName, 'public');
 
             // Enregistrer les informations du document dans la base de données
-            $uploadedFiles[] = Document::create([
+            $uploadedFiles[] = TDocument::create([
                 'nom' => $fileName,
                 'fichierdocument' => $fileName,
                 'dossier_id' => $request->dossier_id,

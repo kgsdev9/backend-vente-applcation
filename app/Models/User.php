@@ -37,7 +37,7 @@ class User extends Authenticatable
 
     public function departement()
     {
-        return $this->belongsTo(TDepartement::class, 'departement_id');
+        return $this->belongsTo(TDepartement::class, 'tdepartment_id');
     }
 
     public function typecontrat()

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Roles;
 
 use App\Http\Controllers\Controller;
 use App\Models\Role;
+use App\Models\Trole;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $listeroles =Role::orderByDesc('created_at')->get();
+        $listeroles =Trole::orderByDesc('created_at')->get();
         return response()->json($listeroles);
     }
 
@@ -28,7 +29,7 @@ class RoleController extends Controller
     public function create()
     {
         User::create([
-            
+
         ]);
     }
 

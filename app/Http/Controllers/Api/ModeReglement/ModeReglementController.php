@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\ModeReglement;
 
 use App\Http\Controllers\Controller;
 use App\Models\ModeReglement;
+use App\Models\TmodeReglement;
 use Illuminate\Http\Request;
 
 class ModeReglementController extends Controller
@@ -15,7 +16,7 @@ class ModeReglementController extends Controller
      */
     public function index()
     {
-        $modereglement = ModeReglement::all();
+        $modereglement = TmodeReglement::all();
         return response()->json($modereglement);
     }
 

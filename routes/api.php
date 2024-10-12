@@ -34,7 +34,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
@@ -59,7 +58,6 @@ Route::resource('/dossiers', DossierController::class);
 Route::resource('/documents', DocumentController::class);
 Route::get('/listearticles', [ArticleController::class, 'listearticles']);
 Route::get('/statistique', [StatistiqueController::class, 'index']);
-// Route::get('download-reference/{id}', [ImpressionController::class, 'impressionsingleFacture']);
 Route::resource('/famillearticle', FamilleArticleController::class);
 Route::get('/report/facture/export', [RapportController::class, 'exportpdf'])->name('factures.report');
 Route::resource('roles', RoleController::class);

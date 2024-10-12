@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\Dossier;
 use App\Http\Controllers\Controller;
 use App\Models\Document;
 use App\Models\Dossier;
+use App\Models\TDocument;
+use App\Models\TDossier;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
@@ -17,7 +19,7 @@ class DossierController extends Controller
      */
     public function index(Request $request)
     {
-            $query = Dossier::orderByDesc('created_at')->with('departement');
+            $query = TDossier::orderByDesc('created_at')->with('departement');
             // Gérer les critères de recherche
             if ($request->has('search')) {
                 $searchTerm = $request->search;
@@ -54,7 +56,7 @@ class DossierController extends Controller
      */
     public function store(Request $request)
     {
-        Dossier::create([
+        TDossier::create([
         'nom'=> $request->designation,
         'codedossier'=> rand(100,400),
         'departement_id'=> $request->departementid,
@@ -72,11 +74,11 @@ class DossierController extends Controller
      */
     public function show($id)
     {
-        $dossier = Dossier::with('departement')->findOrFail($id);
+        $dossier = TDossier::with('departement')->findOrFail($id);
 
         // $itemsFacture = Document::where('dossier_id', $dossier->id)->get();
 
-        $itemsFacture = Document::where('dossier_id', $dossier->id)->get()->map(function($document) {
+        $itemsFacture = TDocument::where('dossier_id', $dossier->id)->get()->map(function($document) {
             $document->file_url = asset('storage/documents/' . $document->nom); // Ajoutez l'URL du fichier
             return $document;
         });
