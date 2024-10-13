@@ -10,6 +10,6 @@ class Trole extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nom',
+        'li',
     ];
 }

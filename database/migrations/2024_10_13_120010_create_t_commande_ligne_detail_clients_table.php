@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTLigneCmdeReferencesTable extends Migration
+class CreateTCommandeLigneDetailClientsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,18 @@ class CreateTLigneCmdeReferencesTable extends Migration
      */
     public function up()
     {
-        Schema::create('t_ligne_cmde_references', function (Blueprint $table) {
+        Schema::create('t_commande_ligne_detail_clients', function (Blueprint $table) {
             $table->id();
-            $table->string('numcmderefe')->unique();
-            $table->string('reference');
+            $table->string('numdetailcmde')->unique();
+            $table->unsignedBigInteger('codecmde');
+            $table->string('reference')->unique();
             $table->integer('numligne');
             $table->integer('prixunitaire')->nullable();
-            $table->integer('quantite')->nullable();
+            $table->integer('quantitecmde')->nullable();
+            $table->integer('quantitelivre')->nullable();
+            $table->integer('reliquat')->nullable();
             $table->integer('remiseligne')->nullable();
             $table->string('montantht')->nullable();
-            $table->unsignedBigInteger('tcommandereference_id')->nullable();
             $table->timestamps();
         });
     }
@@ -34,6 +36,6 @@ class CreateTLigneCmdeReferencesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('t_ligne_cmde_references');
+        Schema::dropIfExists('t_commande_ligne_detail_clients');
     }
 }

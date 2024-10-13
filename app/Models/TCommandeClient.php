@@ -5,17 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TCommandeReference extends Model
+class TCommandeClient extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        'codecomde',
+        'codecmde',
         'client_id',
-        'datecomde',
-        'delailivraisoncmde',
+        'datecmde',
+        'quantitecmde',
+        'quantitelivre',
+        'reliquat',
+        'delailivrcmde',
         'dateconfirmation',
-        'remiseglobale',
-        'tzonelivraison_id',
         'montantadsci',
         'montanttva',
         'montantht',

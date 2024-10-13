@@ -15,8 +15,10 @@ use App\Http\Controllers\Api\Document\DocumentController;
 use App\Http\Controllers\Api\CodeDevise\CodeDeviseController;
 use App\Http\Controllers\Api\Commande\Etat\EtatCommandeController;
 use App\Http\Controllers\Api\Departement\DepartementController;
+use App\Http\Controllers\Api\EtudeClient\EtudeClientController;
 use App\Http\Controllers\Api\ModeReglement\ModeReglementController;
 use App\Http\Controllers\Api\Roles\RoleController;
+use App\Http\Controllers\Api\Settings\PermissionManagerSettingController;
 use App\Http\Controllers\Api\Settings\SettingController;
 
 /*
@@ -57,6 +59,7 @@ Route::get('/fetch/desginationwithpagination', [DepartementController::class, 'f
 Route::resource('/articles', ArticleController::class);
 Route::resource('/dossiers', DossierController::class);
 Route::resource('/documents', DocumentController::class);
+Route::resource('/etudeclient', EtudeClientController::class);
 Route::get('/listearticles', [ArticleController::class, 'listearticles']);
 Route::get('/statistique', [StatistiqueController::class, 'index']);
 Route::resource('/famillearticle', FamilleArticleController::class);
@@ -88,6 +91,15 @@ Route::prefix('settings')->name('settings.')->group(function() {
     // Route personnalisée pour exportusers
 
 });
+
+
+
+Route::prefix('settings')->name('settings.')->group(function() {
+
+    Route::get('/managerPermissions', [PermissionManagerSettingController::class, 'managerPermissions'])->name('manager.permissions');
+});
+
+
 
 
 

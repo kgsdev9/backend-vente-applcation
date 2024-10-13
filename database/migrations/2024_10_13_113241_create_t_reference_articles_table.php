@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTArrivagCommandeFournsseurDetailsTable extends Migration
+class CreateTReferenceArticlesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class CreateTArrivagCommandeFournsseurDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('t_arrivag_commande_fournsseur_details', function (Blueprint $table) {
+        Schema::create('t_reference_articles', function (Blueprint $table) {
             $table->id();
+            $table->string('reference');
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ class CreateTArrivagCommandeFournsseurDetailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('t_arrivag_commande_fournsseur_details');
+        Schema::dropIfExists('t_reference_articles');
     }
 }
