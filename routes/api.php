@@ -60,6 +60,8 @@ Route::resource('/articles', ArticleController::class);
 Route::resource('/dossiers', DossierController::class);
 Route::resource('/documents', DocumentController::class);
 Route::resource('/etudeclient', EtudeClientController::class);
+// Route::middleware('auth:sanctum')->get('/etudeclient', [EtudeClientController::class, 'index']);
+
 Route::get('/listearticles', [ArticleController::class, 'listearticles']);
 Route::get('/statistique', [StatistiqueController::class, 'index']);
 Route::resource('/famillearticle', FamilleArticleController::class);
