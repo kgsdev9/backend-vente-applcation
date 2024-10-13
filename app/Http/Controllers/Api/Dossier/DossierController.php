@@ -3,38 +3,38 @@
 namespace App\Http\Controllers\Api\Dossier;
 
 use App\Http\Controllers\Controller;
-use App\Models\Document;
-use App\Models\Dossier;
 use App\Models\TDocument;
 use App\Models\TDossier;
-use Illuminate\Database\Eloquent\Builder;
+use App\Traits\RechercheAndPagination;
 use Illuminate\Http\Request;
 
 class DossierController extends Controller
 {
+
+    use RechercheAndPagination;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+
+     public function index(Request $request)
     {
-            $query = TDossier::orderByDesc('created_at')->with('departement');
-            // Gérer les critères de recherche
-            if ($request->has('search')) {
-                $searchTerm = $request->search;
-                $query->where(function (Builder $query) use ($searchTerm) {
-                    $query->where('nom', 'like', "%$searchTerm%")
-                          ->orWhereDate('created_at', '=', $searchTerm); // exemple: recherche par date de creation
-                });
-            }
+        // Créer la requête pour les utilisateurs (instance de Builder)
+        $query = TDossier::query()->orderByDesc('created_at');
 
-            // Paginer les résultats avec une taille de page par défaut
-            $users = $query->paginate($request->query('per_page', 10));
+        // Champs sur lesquels on peut effectuer une recherche
+        $critererecherche = ['libelledossier', 'created_at'];
 
-            return response()->json($users);
+        // Relations à charger
+        $relations = ['departement'];
 
+        // Appliquer la recherche et la pagination via le trait
+        $clients = $this->applySearchAndPagination($query, $request, $critererecherche, $relations);
+
+        return response()->json($clients);
     }
+
 
 
 
@@ -57,9 +57,9 @@ class DossierController extends Controller
     public function store(Request $request)
     {
         TDossier::create([
-        'nom'=> $request->designation,
+        'libelledossier'=> $request->designation,
         'codedossier'=> rand(100,400),
-        'departement_id'=> $request->departementid,
+        'tdepartement_id'=> $request->departementid,
         ]);
 
         return response()->json('création effectutée avec succes');
@@ -75,14 +75,10 @@ class DossierController extends Controller
     public function show($id)
     {
         $dossier = TDossier::with('departement')->findOrFail($id);
-
-        // $itemsFacture = Document::where('dossier_id', $dossier->id)->get();
-
         $itemsFacture = TDocument::where('dossier_id', $dossier->id)->get()->map(function($document) {
-            $document->file_url = asset('storage/documents/' . $document->nom); // Ajoutez l'URL du fichier
+            $document->file_url = asset('storage/documents/' . $document->libelledocument);
             return $document;
         });
-
         return response()->json([
             'dossier' => $dossier,
             'documents' => $itemsFacture

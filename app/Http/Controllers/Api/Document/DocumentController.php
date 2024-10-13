@@ -38,17 +38,7 @@ class DocumentController extends Controller
     public function store(Request $request)
     {
 
-        // dd($request->all());
-
-        // Validation des fichiers
-        // dd($request->all());
-        // Vérifiez si des fichiers ont été téléchargés
-        // if (!$request->hasFile('files')) {
-        //     return response()->json(['message' => 'Aucun fichier téléchargé.'], 400);
-        // }
-
         $uploadedFiles = [];
-
         foreach ($request->file('files') as $file) {
             // Générer un nom unique pour le fichier
             $fileName = time() . '_' . $file->getClientOriginalName();
@@ -58,7 +48,7 @@ class DocumentController extends Controller
 
             // Enregistrer les informations du document dans la base de données
             $uploadedFiles[] = TDocument::create([
-                'nom' => $fileName,
+                'libelledocument' => $fileName,
                 'fichierdocument' => $fileName,
                 'dossier_id' => $request->dossier_id,
             ]);

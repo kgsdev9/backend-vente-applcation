@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\Commande\Etat\EtatCommandeController;
 use App\Http\Controllers\Api\Departement\DepartementController;
 use App\Http\Controllers\Api\ModeReglement\ModeReglementController;
 use App\Http\Controllers\Api\Roles\RoleController;
+use App\Http\Controllers\Api\Settings\SettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,6 +67,7 @@ Route::get('/invoice/{id}/generate', [EtatCommandeController::class, 'generate']
 
 
 
+
 Route::prefix('users')->name('users.')->group(function() {
     // Route personnalisée pour printall
     Route::get('/printall', [UserController::class, 'printall'])->name('printall');
@@ -76,6 +78,16 @@ Route::prefix('users')->name('users.')->group(function() {
 
 Route::resource('users', UserController::class);
 
+
+
+Route::prefix('settings')->name('settings.')->group(function() {
+    // Route personnalisée pour printall
+    Route::get('/regimefiascal', [SettingController::class, 'allRegimefiscale'])->name('regme.fiscale');
+    Route::get('/allcodedevise', [SettingController::class, 'allCodeDevise'])->name('code.devise');
+
+    // Route personnalisée pour exportusers
+
+});
 
 
 

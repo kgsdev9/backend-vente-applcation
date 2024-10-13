@@ -73,6 +73,7 @@ class DepartementController extends Controller
         TDepartement::where('id', '=' ,$request->id)->update([
             'libelledepartement'=>  $request->libelledepartement,
         ]);
+       
 
         return response()->json([
             'message' => 'Departement modifié avec succes',

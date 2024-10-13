@@ -24,13 +24,8 @@ class ClientController extends Controller
         return response()->json($clients);
     }
 
-    // public function allClients(Request $request)  {
-    //     $query = TClient::orderByDesc('created_at');
-    //     $factures = $query->paginate($request->query('per_page', 10)); // Modifier la taille de page par défaut ici
-    //     return response()->json($factures);
 
-    // }
-
+    
     public function allClients(Request $request)
     {
         // Créer la requête pour les utilisateurs (instance de Builder)
@@ -66,18 +61,22 @@ class ClientController extends Controller
     public function store(Request $request)
     {
 
-        $codeclient =  "CO". rand(1000, 300400);
+        $codeclient =  "CC". rand(1000, 300400);
 
         TClient::create([
-            'nom' => $request->nom,
-            'prenom' => $request->prenom,
-            'city_id' => 1,
-            'country_id' => 1,
-            'adresse' => $request->adresse,
-            'email' => $request->email,
             'codeclient'=> $codeclient,
-            'telephone' => $request->telephone,
+            'libtiers' => $request->libtiers,
+            'adressepostale' => $request->adressegeo,
+            'adressegeo' =>$request->adressegeo,
             'fax' => $request->fax,
+            'email' => $request->email,
+            'telephone' => $request->telephone,
+            'numerocomtribuabe'=> $request->numerocomtribuabe,
+            'numerodecompte' => $request->numerodecompte,
+            'capital' => $request->capital,
+            'tregimefiscal_id' => $request->tregimefiscal_id,
+            'tcodedevise_id' => $request->tcodedevise_id,
+            'sitelivraison' => $request->adressegeo,
         ]);
 
         return response()->json(['message' => 'Client cré avec success']);
@@ -127,12 +126,18 @@ class ClientController extends Controller
     public function update(Request $request, $id)
     {
         TClient::where('id', '=' ,$id)->update([
-            'nom' => $request->nom,
-            'prenom' => $request->prenom,
-            'adresse' => $request->adresse,
+            'libtiers' => $request->libtiers,
+            'adressepostale' => $request->adressegeo,
+            'adressegeo' =>$request->adressegeo,
+            'fax' => $request->fax,
             'email' => $request->email,
             'telephone' => $request->telephone,
-            'fax' => $request->fax,
+            'numerocomtribuabe'=> $request->numerocomtribuabe,
+            'numerodecompte' => $request->numerodecompte,
+            'capital' => $request->capital,
+            'tregimefiscal_id' => $request->tregimefiscal_id,
+            'tcodedevise_id' => $request->tcodedevise_id,
+            'sitelivraison' => $request->adressegeo,
         ]);
         return response()->json('client modifé avec success');
     }

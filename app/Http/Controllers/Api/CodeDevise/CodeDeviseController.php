@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\CodeDevise;
 
 use App\Http\Controllers\Controller;
 use App\Models\CodeDevise;
+use App\Models\TcodeDevise;
 use Illuminate\Http\Request;
 
 class CodeDeviseController extends Controller
@@ -15,7 +16,7 @@ class CodeDeviseController extends Controller
      */
     public function index()
     {
-        $listecodedevise = CodeDevise::all(); 
+        $listecodedevise = TcodeDevise::all();
         return response()->json($listecodedevise);
     }
 
