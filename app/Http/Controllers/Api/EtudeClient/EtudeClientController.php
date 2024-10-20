@@ -89,7 +89,7 @@ class EtudeClientController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
@@ -100,7 +100,16 @@ class EtudeClientController extends Controller
      */
     public function edit($id)
     {
-        //
+        $etudeclient = TEtudeClient::findOrFail($id); // Utilisation de findOrFail pour gérer les cas où la facture n'est pas trouvée
+
+        $referenceClient = TReferenceClient::where('t_client_id', $etudeclient->tclient_id)->get();
+
+       
+        return response()->json([
+            'etudeclient' => $etudeclient,
+            'referenceClient' => $referenceClient
+        ]);
+
     }
 
     /**
