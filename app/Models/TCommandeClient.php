@@ -10,7 +10,7 @@ class TCommandeClient extends Model
     use HasFactory;
 
     protected $fillable = [
-        'codecmde',
+        'codecommande',
         'client_id',
         'datecmde',
         'quantitecmde',
@@ -24,4 +24,16 @@ class TCommandeClient extends Model
         'montanttc',
         'statutcmde',
     ];
+
+    public function client()  {
+        return $this->belongsTo(TClient::class, 'client_id');
+    }
+
+    public function referenceclients()
+    {
+        return $this->hasMany(TCommandeLigneDetailClient::class,  'codecommande', 'codecommande');
+    }
+
 }
+
+

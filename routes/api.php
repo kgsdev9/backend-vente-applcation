@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\Articles\ArticleController;
 use App\Http\Controllers\Api\Document\DocumentController;
 use App\Http\Controllers\Api\CodeDevise\CodeDeviseController;
 use App\Http\Controllers\Api\Commande\Etat\EtatCommandeController;
+use App\Http\Controllers\Api\Commandes\CommandesClient\CommandeClientController;
 use App\Http\Controllers\Api\Departement\DepartementController;
 use App\Http\Controllers\Api\EtudeClient\EtudeClientController;
 use App\Http\Controllers\Api\ModeReglement\ModeReglementController;
@@ -103,6 +104,11 @@ Route::prefix('settings')->name('settings.')->group(function() {
 
 
 
+Route::resource('/commandeclient', CommandeClientController::class);
 
 
 
+
+Route::prefix('cmdeclient')->name('cmdeclient.')->group(function() {
+    Route::get('/referenceclient/{id}', [CommandeClientController::class, 'getAllReferenceClient']);
+});

@@ -15,7 +15,7 @@ class CreateTCommandeClientsTable extends Migration
     {
         Schema::create('t_commande_clients', function (Blueprint $table) {
             $table->id();
-            $table->string('codecomde');
+            $table->string('codecommande');
             $table->unsignedBigInteger('client_id')->nullable();
             $table->date('datecmde')->nullable();
             $table->date('delailivrcmde')->nullable();
@@ -28,6 +28,7 @@ class CreateTCommandeClientsTable extends Migration
             $table->integer('montantht')->nullable();
             $table->integer('montanttc')->nullable();
             $table->integer('statutcmde')->default('0');
+            $table->foreign('client_id')->references('id')->on('t_clients');
             $table->timestamps();
         });
     }

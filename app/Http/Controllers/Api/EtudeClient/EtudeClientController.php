@@ -121,24 +121,17 @@ class EtudeClientController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        // Trouver l'étude client à modifier
         $etudeClient = TEtudeClient::findOrFail($id);
-
-        // Mettre à jour les informations de l'étude
         $etudeClient->update([
             'tclient_id' => $request->client,
             'montant_etude' => $request->montantetude,
             'duree_traitement' => $request->dureetude,
             'responsable_etude' => $request->responsabletude,
-            'redacteur_id' => $request->redacteur_id ?? $etudeClient->redacteur_id, // Si le redacteur n'est pas fourni
+            'redacteur_id' => $request->redacteur_id ?? $etudeClient->redacteur_id,
         ]);
 
-        // Mettre à jour les références associées
-        // 1. Supprimer les anciennes références
         TReferenceClient::where('t_client_id', $etudeClient->tclient_id)->delete();
-
-        // 2. Créer les nouvelles références
+       
         foreach ($request->references as $ref) {
             TReferenceClient::create([
                 'reference' => $ref['reference'],

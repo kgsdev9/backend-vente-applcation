@@ -25,6 +25,11 @@ class TClient extends Model
         'sitelivraison',
     ];
 
+
+    public function references() {
+        return $this->hasMany(TReferenceClient::class);
+    }
+
     public function regimefiscal(){
         return $this->belongsTo(TregimeFiscal::class, 'tregimefiscal_id');
     }

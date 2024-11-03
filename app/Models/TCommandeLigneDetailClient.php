@@ -10,8 +10,7 @@ class TCommandeLigneDetailClient extends Model
     use HasFactory;
 
     protected $fillable = [
-        'numdetailcmde',
-        'codecmde',
+        'codecommande',
         'reference',
         'numligne',
         'prixunitaire',

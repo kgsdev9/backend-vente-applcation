@@ -15,9 +15,8 @@ class CreateTCommandeLigneDetailClientsTable extends Migration
     {
         Schema::create('t_commande_ligne_detail_clients', function (Blueprint $table) {
             $table->id();
-            $table->string('numdetailcmde')->unique();
-            $table->unsignedBigInteger('codecmde');
-            $table->string('reference')->unique();
+            $table->string('codecommande');
+            $table->string('reference');
             $table->integer('numligne');
             $table->integer('prixunitaire')->nullable();
             $table->integer('quantitecmde')->nullable();
@@ -25,6 +24,7 @@ class CreateTCommandeLigneDetailClientsTable extends Migration
             $table->integer('reliquat')->nullable();
             $table->integer('remiseligne')->nullable();
             $table->string('montantht')->nullable();
+
             $table->timestamps();
         });
     }
