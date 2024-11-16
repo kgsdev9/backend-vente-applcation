@@ -255,6 +255,8 @@ class CommandeClientController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $client =  TCommandeClient::find($id);
+        $client->delete();
+       return response()->json('Suppression de la cmde');
     }
 }
