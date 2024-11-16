@@ -107,8 +107,6 @@ Route::prefix('settings')->name('settings.')->group(function() {
 Route::resource('/commandeclient', CommandeClientController::class);
 
 
-
-
 Route::prefix('cmdeclient')->name('cmdeclient.')->group(function() {
     Route::get('/referenceclient/{id}', [CommandeClientController::class, 'getAllReferenceClient']);
 });

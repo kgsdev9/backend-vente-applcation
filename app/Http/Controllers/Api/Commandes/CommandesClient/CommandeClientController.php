@@ -25,6 +25,11 @@ class CommandeClientController extends Controller
         // Créer la requête pour les utilisateurs (instance de Builder)
         $query = TCommandeClient::query()
                                 ->orderByDesc('created_at');
+
+        if ($request->has('client_id'))
+        {
+            $query->where('client_id', $request->client_id);
+        }
         // Champs sur lesquels on peut effectuer une recherche
         $critererecherche = ['codecommande', 'datecmde'];
 

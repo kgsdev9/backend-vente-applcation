@@ -24,6 +24,7 @@ trait RechercheAndPagination
             $query->with($relations);
         }
 
+       
         // Gérer les critères de recherche
         if ($request->has('search'))
         {
