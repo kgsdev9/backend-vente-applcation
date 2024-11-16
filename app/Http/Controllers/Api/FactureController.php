@@ -121,6 +121,8 @@ class FactureController extends Controller
 
         $itemsFacture = TfactureLigne::where('facture_id', $facture->id)->get();
 
+        $listereferenceClient = T
+
         return response()->json([
             'facture' => $facture,
             'itemsFacture' => $itemsFacture

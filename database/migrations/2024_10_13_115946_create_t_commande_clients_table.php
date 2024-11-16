@@ -17,6 +17,7 @@ class CreateTCommandeClientsTable extends Migration
             $table->id();
             $table->string('codecommande');
             $table->unsignedBigInteger('client_id')->nullable();
+            $table->unsignedBigInteger('modereglement_id')->nullable();
             $table->date('datecmde')->nullable();
             $table->date('delailivrcmde')->nullable();
             $table->date('dateconfirmation');
@@ -29,6 +30,7 @@ class CreateTCommandeClientsTable extends Migration
             $table->integer('montanttc')->nullable();
             $table->integer('statutcmde')->default('0');
             $table->foreign('client_id')->references('id')->on('t_clients');
+            $table->foreign('modereglement_id')->references('id')->on('tmode_reglements');
             $table->timestamps();
         });
     }

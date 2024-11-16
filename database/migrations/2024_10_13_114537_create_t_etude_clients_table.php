@@ -18,11 +18,11 @@ class CreateTEtudeClientsTable extends Migration
             $table->string('numeetudeclient');
             $table->string('numetudeprixclient');
             $table->unsignedBigInteger('tclient_id');
-            $table->decimal('montant_etude', 10, 2)->nullable();
+            $table->integer('montant_etude')->nullable();
             $table->enum('statutet', ['0', '1', '2'])->default('0');
             $table->date('duree_traitement');
             $table->string('responsable_etude')->nullable();
-            $table->unsignedBigInteger('redacteur_id');
+            $table->unsignedBigInteger('redacteur_id')->nullable();
             $table->foreign('tclient_id')->references('id')->on('t_clients')->onDelete('cascade');
             $table->foreign('redacteur_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
