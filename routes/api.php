@@ -110,6 +110,7 @@ Route::resource('/commandeclient', CommandeClientController::class);
 Route::prefix('cmdeclient')->name('cmdeclient.')->group(function() {
     Route::get('/referenceclient/{id}', [CommandeClientController::class, 'getAllReferenceClient']);
     Route::get('/printall', [CommandeClientController::class, 'printall'])->name('printall');
+    Route::get('/change/status/cmde', [CommandeClientController::class, 'actionSurCmde']);
 });
 
 

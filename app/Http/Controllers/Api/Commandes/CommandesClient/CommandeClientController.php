@@ -172,6 +172,15 @@ class CommandeClientController extends Controller
         return response()->json(['message' => 'Commande créée avec succès.', 'commande' => $commande->codecmde], 201);
     }
 
+    public function actionSurCmde(Request $request)
+    {
+        $commande =  TCommandeClient::find($request->codeComande)->first();
+        $commande->update([
+            'statutcmde' => $request->status
+        ]);
+
+       return response()->json('Action sur la cmde effecuté avec success');
+    }
 
     /**
      * Display the specified resource.
