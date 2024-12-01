@@ -15,9 +15,10 @@ class TDepartement extends Model
 
     public function users()
     {
-        return $this->hasMany(User::class, 'tdepartment_id'); // Correction ici
+        return $this->hasMany(User::class, 'tdepartment_id');
     }
 
 
-  
+
+
 }

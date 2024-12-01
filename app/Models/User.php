@@ -40,7 +40,11 @@ class User extends Authenticatable
         return $this->belongsTo(TDepartement::class, 'tdepartment_id');
     }
 
-   
+
+    public function client()  {
+        return $this->belongsTo(TClient::class, 'client_id');
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

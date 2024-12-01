@@ -29,6 +29,8 @@ class ClientController extends Controller
         // Créer la requête pour les utilisateurs (instance de Builder)
         $query = TClient::query()->orderByDesc('created_at');
 
+      
+
         // Champs sur lesquels on peut effectuer une recherche
         $critererecherche = ['libtiers', 'email', 'telephone','created_at'];
 
