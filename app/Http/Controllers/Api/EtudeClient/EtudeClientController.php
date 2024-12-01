@@ -18,15 +18,19 @@ class EtudeClientController extends Controller
      */
     public function index(Request $request)
     {
-
-
         // Créer la requête pour les utilisateurs (instance de Builder)
         $query = TEtudeClient::query()
-
         ->orderByDesc('created_at');
 
+
+        if ($request->has('client_id'))
+        {
+            $query->where('tclient_id', $request->client_id);
+        }
         // Champs sur lesquels on peut effectuer une recherche
-        $critererecherche = ['numeetudeclient', 'created_at'];
+
+        // Champs sur lesquels on peut effectuer une recherche
+        $critererecherche = ['numetudeclient', 'numetudeprixclient'];
 
         // Relations à charger
         $relations = ['user', 'client'];
@@ -60,13 +64,15 @@ class EtudeClientController extends Controller
         $numetudeprixclient = TEtudeClient::generateNumeroEtudePrixClient();
 
         TEtudeClient::create([
-            'numeetudeclient' => $numeetudeclient ,
+            'numetudeclient' => $numeetudeclient ,
             'numetudeprixclient'=> $numetudeprixclient,
             'tclient_id'=>  $request->client,
-            'montant_etude'=> $request->montantetude,
-            'duree_traitement'=> $request->dureetude,
+            'montant_etude'=> $request->totalht,
+            'duree_traitement'=> $request->dureetude ?? now(),
             'responsable_etude'=> $request->responsabletude,
             'redacteur_id'=> $request->redacteur_id ?? 1,
+            'qtecmde'=> $request->totalqte ?? 1,
+            'montantht'=> $request->totalht ?? 1,
         ]);
 
         foreach ($request->references as $ref)
@@ -74,6 +80,9 @@ class EtudeClientController extends Controller
             TReferenceClient::create([
                 'reference' => $ref['reference'],
                 'prixunitaire' => $ref['price'],
+                'qte' => $ref['quantity'],
+                'numetudeclient' => $numeetudeclient,
+                'numetudeprixclient' => $numetudeprixclient,
                 't_client_id' => $request->client,
             ]);
         }
@@ -100,11 +109,11 @@ class EtudeClientController extends Controller
      */
     public function edit($id)
     {
-        $etudeclient = TEtudeClient::findOrFail($id); // Utilisation de findOrFail pour gérer les cas où la facture n'est pas trouvée
+        $etudeclient = TEtudeClient::findOrFail($id);
 
-        $referenceClient = TReferenceClient::where('t_client_id', $etudeclient->tclient_id)->get();
-
-
+        $referenceClient = TReferenceClient::where('t_client_id', $etudeclient->tclient_id)
+                                            ->where('numetudeclient', $etudeclient->numetudeclient)
+                                            ->get();
         return response()->json([
             'etudeclient' => $etudeclient,
             'referenceClient' => $referenceClient
@@ -121,7 +130,10 @@ class EtudeClientController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // Récupérer l'instance de l'étude client existante
         $etudeClient = TEtudeClient::findOrFail($id);
+
+        // Mettre à jour les informations de l'étude client
         $etudeClient->update([
             'tclient_id' => $request->client,
             'montant_etude' => $request->montantetude,
@@ -130,18 +142,26 @@ class EtudeClientController extends Controller
             'redacteur_id' => $request->redacteur_id ?? $etudeClient->redacteur_id,
         ]);
 
-        TReferenceClient::where('t_client_id', $etudeClient->tclient_id)->delete();
-       
-        foreach ($request->references as $ref) {
+        TReferenceClient::where('numetudeclient', $etudeClient->numetudeclient)
+                       ->where('t_client_id', $etudeClient->tclient_id)
+                       ->delete();
+
+        // Ajouter les nouvelles références
+        foreach ($request->references as $ref)
+        {
             TReferenceClient::create([
                 'reference' => $ref['reference'],
                 'prixunitaire' => $ref['prixunitaire'],
                 't_client_id' => $request->client,
+                'qte' => $ref['qte'],
+                'numetudeclient' => $etudeClient->numetudeclient,
+                'numetudeprixclient'  => $etudeClient->numetudeprixclient
             ]);
         }
 
         return response()->json('Étude et références mises à jour avec succès');
     }
+
 
 
     /**
@@ -152,6 +172,15 @@ class EtudeClientController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $etudeclient = TEtudeClient::findOrFail($id);
+
+        TReferenceClient::where('t_client_id', $etudeclient->tclient_id)
+                        ->where('numetudeclient', $etudeclient->numetudeclient)
+                        ->delete();
+
+        $etudeclient->delete();
+
+        return response()->json(['message' => 'Étude client et ses références associées supprimées avec succès.'], 200);
     }
+
 }

@@ -15,10 +15,11 @@ class CreateTEtudeClientsTable extends Migration
     {
         Schema::create('t_etude_clients', function (Blueprint $table) {
             $table->id();
-            $table->string('numeetudeclient');
             $table->string('numetudeprixclient');
+            $table->string('numetudeclient');
+            $table->string('qtecmde');
             $table->unsignedBigInteger('tclient_id');
-            $table->integer('montant_etude')->nullable();
+            $table->decimal('montant_etude', 15, 2)->nullable();
             $table->enum('statutet', ['0', '1', '2'])->default('0');
             $table->date('duree_traitement');
             $table->string('responsable_etude')->nullable();
