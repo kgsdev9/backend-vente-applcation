@@ -32,7 +32,7 @@ class UserController extends Controller
          }
 
          // Champs sur lesquels on peut effectuer une recherche
-         $critererecherche = ['nom', 'email', 'prenom', 'poste', 'created_at'];
+         $critererecherche = ['nom', 'email', 'prenom', 'poste', 'created_at', 'telephone'];
 
          // Relations à charger
          $relations = ['role', 'departement'];

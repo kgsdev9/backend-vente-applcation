@@ -114,3 +114,4 @@ Route::prefix('cmdeclient')->name('cmdeclient.')->group(function() {
 });
 
 
+// const url = `${API_BASE_URL}${modules}/${id}`;  // Correction ici

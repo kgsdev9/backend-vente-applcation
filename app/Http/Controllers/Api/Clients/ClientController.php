@@ -29,7 +29,7 @@ class ClientController extends Controller
         // Créer la requête pour les utilisateurs (instance de Builder)
         $query = TClient::query()->orderByDesc('created_at');
 
-      
+
 
         // Champs sur lesquels on peut effectuer une recherche
         $critererecherche = ['libtiers', 'email', 'telephone','created_at'];
@@ -93,12 +93,11 @@ class ClientController extends Controller
     public function show($id)
     {
         $client = TClient::findOrFail($id);
-        $listefactures = TFacture::where('client_id', $client->id)->with('modereglement', 'codedevise')->get();
+        $listefactures = TFacture::where('tclient_id', $client->id)->with('modereglement', 'codedevise')->get();
 
         return response()->json([
             'listefactures'=> $listefactures,
             'client' => $client,
-
         ]);
     }
 
