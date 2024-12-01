@@ -24,8 +24,6 @@ class ClientController extends Controller
         return response()->json($clients);
     }
 
-
-    
     public function allClients(Request $request)
     {
         // Créer la requête pour les utilisateurs (instance de Builder)

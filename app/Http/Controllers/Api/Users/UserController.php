@@ -45,10 +45,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
-    {
-        dd('sss');
-    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -58,18 +55,31 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        // Vérifier si l'adresse email existe déjà
+        $email = $request->email;
+        $baseEmail = explode('@', $email)[0]; // Partie avant le '@'
+        $domain = explode('@', $email)[1];   // Domaine après le '@'
+
+        $counter = 1;
+        while (User::where('email', $email)->exists()) {
+            // Générer une nouvelle adresse email en ajoutant un numéro
+            $email = $baseEmail . $counter . '@' . $domain;
+            $counter++;
+        }
+
+        // Créer l'utilisateur avec l'email unique
         User::create([
-            'nom'=>  $request->nom,
-            'prenom'=> $request->prenom,
-            'password'=> Hash::make($request->password) ?? 12345,
-            'telephone'=> $request->telephone,
-            'email'=> $request->email,
-            'role_id'=> $request->role_id,
-            'tdepartment_id'=> $request->departement_id,
-            'poste'=> $request->poste
+            'nom' => $request->nom,
+            'prenom' => $request->prenom,
+            'password' => Hash::make($request->password) ?? Hash::make(12345),
+            'telephone' => $request->telephone,
+            'email' => $email,
+            'role_id' => $request->role_id,
+            'tdepartment_id' => $request->departement_id,
+            'poste' => $request->poste
         ]);
 
-        return response()->json('utilisateur créé avec success');
+        return response()->json('Utilisateur créé avec succès');
     }
 
 
@@ -166,32 +176,63 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function update(Request $request)
-     {
-         // Récupère les données de l'utilisateur à mettre à jour
-         $data = [
-             'nom' => $request->nom,
-             'prenom' => $request->prenom,
-             'telephone' => $request->telephone,
-             'email' => $request->email,
-             'role_id' => $request->role_id,
-             'tdepartment_id' => $request->departement_id,
-             'poste' => $request->poste
-         ];
+    //  public function update(Request $request)
+    //  {
+    //      $data = [
+    //          'nom' => $request->nom,
+    //          'prenom' => $request->prenom,
+    //          'telephone' => $request->telephone,
+    //          'email' => $request->email,
+    //          'role_id' => $request->role_id,
+    //          'tdepartment_id' => $request->departement_id,
+    //          'poste' => $request->poste
+    //      ];
 
-         // Si un nouveau mot de passe est fourni, on le hache et on l'ajoute aux données
-         if ($request->filled('password')) {
-             $data['password'] = Hash::make($request->password);
-         }
-         
-         // Mise à jour de l'utilisateur avec les nouvelles données
-         User::where('id', '=', $request->iduser)->update($data);
 
-         // Réponse après mise à jour
-         return response()->json([
-             'message' => 'Utilisateur modifié avec succès',
-         ]);
-     }
+    //      if ($request->filled('password'))
+    //      {
+    //          $data['password'] = Hash::make($request->password);
+    //      }
+    //      User::where('id', '=', $request->iduser)->update($data);
+
+    //      return response()->json([
+    //          'message' => 'Utilisateur modifié avec succès',
+    //      ]);
+    //  }
+
+    public function update(Request $request)
+    {
+        // Préparer les données à mettre à jour
+        $data = [
+            'nom' => $request->nom,
+            'prenom' => $request->prenom,
+            'telephone' => $request->telephone,
+            'email' => $request->email,
+            'role_id' => $request->role_id,
+            'tdepartment_id' => $request->departement_id,
+            'poste' => $request->poste,
+        ];
+
+        // Si un mot de passe est fourni, le hacher et l'inclure dans les données
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->password);
+        }
+
+        // Mise à jour des données de l'utilisateur
+        $updated = User::where('id', $request->iduser)->update($data);
+
+        if ($updated)
+         {
+            return response()->json([
+                'message' => 'Utilisateur modifié avec succès.',
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Une erreur s\'est produite lors de la mise à jour.',
+        ], 500);
+    }
+
 
 
 
