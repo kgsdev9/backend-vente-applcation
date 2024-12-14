@@ -34,23 +34,22 @@ class AuthController extends Controller
         ], 201);
     }
 
-    // Connexion d'un utilisateur
     public function login(Request $request)
     {
+        $validated = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
 
-        // $request->validate([
-        //     'email' => 'required|string|email',
-        //     'password' => 'required|string',
-        // ]);
-
-        if (!Auth::attempt($request->only('email', 'password'))) {
+        if (!Auth::attempt($validated))
+        {
             throw ValidationException::withMessages([
-                'email' => ['Les informations d\'identification fournies sont incorrectes.'],
+                'email' => ['Les informations de connexion sont incorrectes.'],
             ]);
         }
 
         $user = Auth::user();
-        $token = $user->createToken('MyApp')->plainTextToken;
+        $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
             'user' => $user,
@@ -58,10 +57,13 @@ class AuthController extends Controller
         ]);
     }
 
+
     public function user(Request $request)
     {
         return response()->json($request->user());
     }
+
+
 
 
 

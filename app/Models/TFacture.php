@@ -13,14 +13,19 @@ class TFacture extends Model
         'remise',
         'numcommande',
         'numvente',
+        'libelleclient',
+        'telephone',
+        'email',
+        'codeclient',
+        'adresse',
         'date_echance',
         'mode_reglement_id',
         'client_id',
         'codedevise_id',
         'user_id',
-        'tva',
+        'montanttva',
         'dateecheance',
-        'adsci',
+        'montantadsci',
         'idregimevente',
         'idconditionvte',
         'montantht',
@@ -40,7 +45,7 @@ class TFacture extends Model
     }
 
     //date echeance, mode reglement
-   
+
     public function modereglement()
     {
         return $this->belongsTo(TmodeReglement::class, 'mode_reglement_id');

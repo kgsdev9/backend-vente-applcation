@@ -15,28 +15,29 @@ class CreateTFacturesTable extends Migration
     {
         Schema::create('t_factures', function (Blueprint $table) {
             $table->id();
-            $table->string('codefacture');
+            $table->string('codefacture')->nullable();
+            $table->decimal('remise', 8, 2)->nullable();
             $table->string('numcommande')->nullable();
             $table->string('numvente')->nullable();
+            $table->string('libelleclient')->nullable();
+            $table->string('telephone')->nullable();
+            $table->string('email')->nullable();
+            $table->string('codeclient')->nullable();
+            $table->string('adresse')->nullable();
             $table->date('date_echance')->nullable();
-            $table->integer('tva')->nullable();
-            $table->integer('adsci')->nullable();
-            $table->integer('montantht')->nullable();
-            $table->integer('numcpteclient')->nullable();
-            $table->integer('montantttc')->nullable();
-            $table->string('numcptecontribuable')->nullable();
-            $table->unsignedBigInteger('tmodereglement_id');
-            $table->unsignedBigInteger('tclient_id');
-            $table->unsignedBigInteger('tcodedevise_id');
-            $table->unsignedBigInteger('tregimevente_id')->nullable();
+            $table->unsignedBigInteger('mode_reglement_id')->nullable();
+            $table->unsignedBigInteger('client_id')->nullable();
+            $table->unsignedBigInteger('codedevise_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->unsignedBigInteger('tconditonvte_id')->nullable();
-            $table->foreign('tclient_id')->references('id')->on('t_clients');
-            $table->foreign('tmodereglement_id')->references('id')->on('tmode_reglements');
-            $table->foreign('tcodedevise_id')->references('id')->on('tcode_devises');
-            $table->foreign('tregimevente_id')->references('id')->on('tregime_ventes');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('tconditonvte_id')->references('id')->on('t_conditon_vtes');
+            $table->decimal('montanttva', 8, 2)->nullable();
+            $table->date('dateecheance')->nullable();
+            $table->decimal('montantadsci', 8, 2)->nullable();
+            $table->unsignedBigInteger('idregimevente')->nullable();
+            $table->unsignedBigInteger('idconditionvte')->nullable();
+            $table->decimal('montantht', 8, 2)->nullable();
+            $table->string('numcpteclient')->nullable();
+            $table->string('numcptecontribuable')->nullable();
+            $table->decimal('montantttc', 8, 2)->nullable();
             $table->timestamps();
         });
     }

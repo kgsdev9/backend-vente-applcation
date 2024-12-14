@@ -11,7 +11,7 @@ use App\Models\TfactureLigne;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
 
-class FactureController extends Controller
+class test extends Controller
 {
 
     // public function __construct()

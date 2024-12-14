@@ -11,16 +11,21 @@ use App\Http\Controllers\Api\Clients\ClientController;
 use App\Http\Controllers\Api\Dossier\DossierController;
 use App\Http\Controllers\Api\Rapport\RapportController;
 use App\Http\Controllers\Api\Articles\ArticleController;
+use App\Http\Controllers\Api\CategorieProduct\CategorieProductController;
+use App\Http\Controllers\Api\Category\CategoryController;
 use App\Http\Controllers\Api\Document\DocumentController;
 use App\Http\Controllers\Api\CodeDevise\CodeDeviseController;
 use App\Http\Controllers\Api\Commande\Etat\EtatCommandeController;
 use App\Http\Controllers\Api\Commandes\CommandesClient\CommandeClientController;
 use App\Http\Controllers\Api\Departement\DepartementController;
 use App\Http\Controllers\Api\EtudeClient\EtudeClientController;
+use App\Http\Controllers\Api\Factures\FactureController;
 use App\Http\Controllers\Api\ModeReglement\ModeReglementController;
+use App\Http\Controllers\Api\Product\ProductController;
 use App\Http\Controllers\Api\Roles\RoleController;
 use App\Http\Controllers\Api\Settings\PermissionManagerSettingController;
 use App\Http\Controllers\Api\Settings\SettingController;
+use App\Http\Controllers\Api\Ventes\VenteProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,8 +57,7 @@ Route::get('/allclients', [ClientController::class, 'allClients']);
 Route::resource('modereglements', ModeReglementController::class);
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
-// Route::post('/me', [AuthController::class, 'me'])->middleware('auth:sanctum');
-// Route::resource('/factures', FactureController::class);
+
 Route::resource('/codedevise', CodeDeviseController::class);
 Route::resource('/departements', DepartementController::class);
 Route::get('/fetch/desginationwithpagination', [DepartementController::class, 'fetchDepartementAllWithPagination']);
@@ -114,4 +118,10 @@ Route::prefix('cmdeclient')->name('cmdeclient.')->group(function() {
 });
 
 
-// const url = `${API_BASE_URL}${modules}/${id}`;  // Correction ici
+
+
+Route::resource('/factures', FactureController::class);
+Route::resource('/product', ProductController::class);
+Route::resource('/categorie', CategorieProductController::class);
+Route::resource('/ventes', VenteProductController::class);
+
