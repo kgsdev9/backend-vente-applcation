@@ -154,45 +154,16 @@ class ProductController extends Controller
 
         // Enregistrez le produit (création ou mise à jour)
         $product->save();
-
         // Retourne un message approprié
         return response()->json(['message' => $request->productid ? 'Produit mis à jour avec succès!' : 'Produit créé avec succès!'], 201);
     }
-
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
     /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -202,6 +173,8 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = TProduct::find($id);
+        $product->delete();
+        return response()->json(['message' => 'Produit supprimé avec succes'], 201);
     }
 }

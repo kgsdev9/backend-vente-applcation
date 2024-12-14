@@ -24,20 +24,17 @@ trait RechercheAndPagination
             $query->with($relations);
         }
 
-       
+
         // Gérer les critères de recherche
         if ($request->has('search'))
         {
             $searchTerm = $request->search;
             $query->where(function (Builder $subQuery) use ($searchTerm, $searchableFields) {
-                foreach ($searchableFields as $field) {
+                foreach ($searchableFields as $field)
+                {
                     $subQuery->orWhere($field, 'like', "%$searchTerm%");
                 }
-                // Si le champ `created_at` fait partie des champs à rechercher par date exacte
-                if (in_array('created_at', $searchableFields))
-                {
-                    $subQuery->orWhereDate('created_at', '=', $searchTerm);
-                }
+               
             });
         }
 

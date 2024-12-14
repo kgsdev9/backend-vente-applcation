@@ -3,7 +3,6 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
-// use App\Http\Controllers\Api\FactureController;
 use App\Http\Controllers\StatistiqueController;
 use App\Http\Controllers\Api\Users\UserController;
 use App\Http\Controllers\FamilleArticleController;
@@ -12,13 +11,13 @@ use App\Http\Controllers\Api\Dossier\DossierController;
 use App\Http\Controllers\Api\Rapport\RapportController;
 use App\Http\Controllers\Api\Articles\ArticleController;
 use App\Http\Controllers\Api\CategorieProduct\CategorieProductController;
-use App\Http\Controllers\Api\Category\CategoryController;
 use App\Http\Controllers\Api\Document\DocumentController;
 use App\Http\Controllers\Api\CodeDevise\CodeDeviseController;
 use App\Http\Controllers\Api\Commande\Etat\EtatCommandeController;
 use App\Http\Controllers\Api\Commandes\CommandesClient\CommandeClientController;
 use App\Http\Controllers\Api\Departement\DepartementController;
 use App\Http\Controllers\Api\EtudeClient\EtudeClientController;
+use App\Http\Controllers\API\Factures\Etat\EtatFactureController;
 use App\Http\Controllers\Api\Factures\FactureController;
 use App\Http\Controllers\Api\ModeReglement\ModeReglementController;
 use App\Http\Controllers\Api\Product\ProductController;
@@ -78,7 +77,7 @@ Route::get('/invoice/{id}/generate', [EtatCommandeController::class, 'generate']
 
 
 
-Route::prefix('users')->name('users.')->group(function() {
+Route::prefix('users')->name('users.')->group(function () {
     // Route personnalisée pour printall
     Route::get('/printall', [UserController::class, 'printall'])->name('printall');
 
@@ -90,7 +89,7 @@ Route::resource('users', UserController::class);
 
 
 
-Route::prefix('settings')->name('settings.')->group(function() {
+Route::prefix('settings')->name('settings.')->group(function () {
     // Route personnalisée pour printall
     Route::get('/regimefiascal', [SettingController::class, 'allRegimefiscale'])->name('regme.fiscale');
     Route::get('/allcodedevise', [SettingController::class, 'allCodeDevise'])->name('code.devise');
@@ -101,7 +100,7 @@ Route::prefix('settings')->name('settings.')->group(function() {
 
 
 
-Route::prefix('settings')->name('settings.')->group(function() {
+Route::prefix('settings')->name('settings.')->group(function () {
 
     Route::get('/managerPermissions', [PermissionManagerSettingController::class, 'managerPermissions'])->name('manager.permissions');
 });
@@ -111,7 +110,7 @@ Route::prefix('settings')->name('settings.')->group(function() {
 Route::resource('/commandeclient', CommandeClientController::class);
 
 
-Route::prefix('cmdeclient')->name('cmdeclient.')->group(function() {
+Route::prefix('cmdeclient')->name('cmdeclient.')->group(function () {
     Route::get('/referenceclient/{id}', [CommandeClientController::class, 'getAllReferenceClient']);
     Route::get('/printall', [CommandeClientController::class, 'printall'])->name('printall');
     Route::get('/change/status/cmde', [CommandeClientController::class, 'actionSurCmde']);
@@ -125,3 +124,10 @@ Route::resource('/product', ProductController::class);
 Route::resource('/categorie', CategorieProductController::class);
 Route::resource('/ventes', VenteProductController::class);
 
+
+
+
+Route::get('/generate/facture/{id}', [EtatFactureController::class, 'generateFacture']);
+
+
+Route::get('/generateListeVente', [EtatFactureController::class, 'generateListeVente']);

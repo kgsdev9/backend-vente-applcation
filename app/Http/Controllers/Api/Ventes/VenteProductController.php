@@ -20,24 +20,24 @@ class VenteProductController extends Controller
      */
     public function index(Request $request)
     {
-          // Créer la requête pour les utilisateurs (instance de Builder)
-            $query = TFacture::query()
+        // Créer la requête pour les utilisateurs (instance de Builder)
+        $query = TFacture::query()
             ->where('numvente', 'like', 'vp%')
             ->orderByDesc('created_at');
 
-            // if ($request->has('client_id'))
-            // {
-            // $query->where('client_id', $request->client_id);
-            // }
-            // Champs sur lesquels on peut effectuer une recherche
-            $critererecherche = ['numvente', 'created_at'];
+        if ($request->has('datevente'))
+        {
+            $query->whereDate('created_at', '=', $request->datevente);
+        }
 
-            // Relations à charger
-            $relations = [];
+        $critererecherche = ['numvente', 'created_at'];
 
-            // Appliquer la recherche et la pagination via le trait
-            $clients = $this->applySearchAndPagination($query, $request, $critererecherche, $relations);
-            return response()->json($clients);
+        // Relations à charger
+        $relations = [];
+
+        // Appliquer la recherche et la pagination via le trait
+        $clients = $this->applySearchAndPagination($query, $request, $critererecherche, $relations);
+        return response()->json($clients);
     }
 
     /**
@@ -118,7 +118,6 @@ class VenteProductController extends Controller
             \DB::commit();
 
             return response()->json(['message' => 'Facture créée avec succès !', 'facture' => $facture], 200);
-
         } catch (\Exception $e) {
             // En cas d'erreur, annuler la transaction
             \DB::rollBack();
@@ -175,8 +174,8 @@ class VenteProductController extends Controller
             // Sélectionner les colonnes nécessaires (id et qtedisponible)
             $query->select('id', 'qtedisponible');
         }])
-        ->where('numvente', $ventes->numvente)
-        ->get();
+            ->where('numvente', $ventes->numvente)
+            ->get();
 
         return response()->json([
             'ventes' => $ventes,
@@ -249,7 +248,6 @@ class VenteProductController extends Controller
             \DB::commit();
 
             return response()->json(['message' => 'Facture modifiée avec succès !', 'facture' => $facture], 200);
-
         } catch (\Exception $e) {
             // Annuler la transaction en cas d'erreur
             \DB::rollBack();
