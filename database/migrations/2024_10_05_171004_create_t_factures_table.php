@@ -20,6 +20,8 @@ class CreateTFacturesTable extends Migration
             $table->string('numcommande')->nullable();
             $table->string('numvente')->nullable();
             $table->string('libelleclient')->nullable();
+            $table->string('nom')->nullable();
+            $table->string('prenom')->nullable();
             $table->string('telephone')->nullable();
             $table->string('email')->nullable();
             $table->string('codeclient')->nullable();
@@ -29,15 +31,15 @@ class CreateTFacturesTable extends Migration
             $table->unsignedBigInteger('client_id')->nullable();
             $table->unsignedBigInteger('codedevise_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->decimal('montanttva', 8, 2)->nullable();
+            $table->decimal('montanttva', 30, 2)->nullable();
             $table->date('dateecheance')->nullable();
-            $table->decimal('montantadsci', 8, 2)->nullable();
+            $table->decimal('montantadsci', 30, 2)->nullable();
             $table->unsignedBigInteger('idregimevente')->nullable();
             $table->unsignedBigInteger('idconditionvte')->nullable();
-            $table->decimal('montantht', 8, 2)->nullable();
+            $table->decimal('montantht', 30, 2)->nullable();
             $table->string('numcpteclient')->nullable();
             $table->string('numcptecontribuable')->nullable();
-            $table->decimal('montantttc', 8, 2)->nullable();
+            $table->decimal('montantttc', 30, 2)->nullable();
             $table->timestamps();
         });
     }

@@ -19,8 +19,24 @@ class EtatFactureController extends Controller
     public function generateFacture($codefacture)
     {
 
-        $facture  = TFacture::where('numvente', 'like',  $codefacture)->first();
-        $factureLigne = TfactureLigne::where('numvente', 'like',  $codefacture)->get();
+
+        if (str_starts_with($codefacture, 'VP')) {
+            // Si le code de facture commence par 'VP'
+            $facture = TFacture::where('numvente', 'like', $codefacture)->first();
+            $factureLigne = TfactureLigne::where('numvente', 'like', $codefacture)->get();
+        } elseif (str_starts_with($codefacture, 'AC')) {
+            $facture = TFacture::where('codefacture', 'like', $codefacture)->first();
+            $factureLigne = TfactureLigne::where('codefacture', 'like', $codefacture)->get();
+        } else {
+            // Si le code de facture ne correspond pas à 'VP' ni à 'AC'
+            // throw new Exception("Le code de facture est invalide ou non reconnu.");
+        }
+
+
+        // $facture  = TFacture::where('numvente', 'like',  $codefacture)->first();
+        // $factureLigne = TfactureLigne::where('numvente', 'like',  $codefacture)->get();
+
+
 
         $pdf = new Fpdf();
         $pdf->AddPage();
@@ -44,7 +60,7 @@ class EtatFactureController extends Controller
         // Première section
         // Cellule "Numéro"
         $pdf->SetXY(5, 40); // Position initiale
-        $pdf->Cell(20, 5, utf8_decode('Numéro'), 1, 0, 'C');
+        $pdf->Cell(20, 5, utf8_decode('N° Facture'), 1, 0, 'C');
 
         // Cellule "Date Facture"
         $pdf->Cell(25, 5, utf8_decode('Date Facture'), 1, 0, 'C');
@@ -52,58 +68,26 @@ class EtatFactureController extends Controller
         // Valeurs
         $pdf->SetFont('Arial', '', 8);
 
-        // Valeur "Numéro"
-        $pdf->SetXY(5, 45); // Position ajustée pour la valeur du numéro
-        $pdf->Cell(20, 5, 'numproformavte', 1, 0, 'C');
-
-        // Valeur "Date Facture"
-        $pdf->Cell(25, 5, date('d/m/Y', strtotime($facture->DateFacture)), 1, 0, 'C');
-
-        // Bon de commande et date
-        $pdf->SetFont('Arial', 'B', 8);
-
-        // Cellule "Numéro"
-        $pdf->SetXY(5, 50); // Position décalée pour éviter de superposer
-        $pdf->Cell(20, 5, utf8_decode('Votre Bon n °'), 1, 0, 'C');
-
-        // Cellule "Date Facture"
-        $pdf->Cell(25, 5, utf8_decode('Date'), 1, 0, 'C');
-
-        // Valeurs
-        $pdf->SetFont('Arial', '', 8);
 
         // Valeur "Numéro"
-        $pdf->SetXY(5, 55); // Position ajustée pour la valeur du numéro
-        $pdf->Cell(20, 5, '', 1, 0, 'C');
+
+        if (str_starts_with($codefacture, 'VP'))
+        {
+            $pdf->SetXY(5, 45); // Position ajustée pour la valeur du numéro
+            $pdf->Cell(20, 5, $facture->numvente, 1, 0, 'C');
+        } else if (str_starts_with($codefacture, 'AC'))
+        {
+            $pdf->SetXY(5, 45); // Position ajustée pour la valeur du numéro
+            $pdf->Cell(20, 5, $facture->codefacture, 1, 0, 'C');
+        }
+
 
         // Valeur "Date Facture"
         $pdf->Cell(25, 5, date('d/m/Y', strtotime($facture->created_at)), 1, 0, 'C');
 
-        // num vente et date
+        // Bon de commande et date
         $pdf->SetFont('Arial', 'B', 8);
 
-        // Cellule "Numéro"
-        $pdf->SetXY(5, 60); // Position décalée pour éviter de superposer
-        $pdf->Cell(20, 5, utf8_decode('Vente n° :'), 1, 0, 'C');
-
-        // Cellule "Date Facture"
-        $pdf->Cell(25, 5, utf8_decode('Date'), 1, 0, 'C');
-
-
-        // Cellule "Numéro"
-        $pdf->SetXY(1, 72); // Position décalée pour éviter de superposer
-        $pdf->Cell(20, 5, utf8_decode('N° COC :'), 0, 0, 'C');
-
-
-        // Valeurs
-        $pdf->SetFont('Arial', '', 8);
-
-        // Valeur "Numéro"
-        $pdf->SetXY(5, 65); // Position ajustée pour la valeur du numéro
-        $pdf->Cell(20, 5, $facture->NumVente, 1, 0, 'C');
-
-        // Valeur "Date Facture"
-        $pdf->Cell(25, 5, date('d/m/Y', strtotime($facture->DateFacture)), 1, 0, 'C');
 
 
         // Bloc principal : Infos Client et Entreprise (remontée)
@@ -113,14 +97,14 @@ class EtatFactureController extends Controller
 
         $pdf->SetXY(62, 45); // Remontée
         $pdf->SetFont('Arial', 'B', 9);
-        $pdf->Cell(50, 6, 'N compte client', 1, 1, 'C');
+        $pdf->Cell(50, 6, 'Email', 1, 1, 'C');
         $pdf->SetFont('Arial', '', 9);
         $pdf->SetXY(62, 51); // Remontée
-        $pdf->Cell(50, 6, $facture->NumCpteClient, 1, 1, 'C');
+        $pdf->Cell(50, 6, $facture->email, 1, 1, 'C');
 
         $pdf->SetXY(130, 42); // Remontée
         $pdf->SetFont('Arial', 'B', 15);
-        $pdf->Cell(58, 6, $facture->LibClient, 0, 1, 'C');
+        $pdf->Cell(58, 6, $facture->nom . ' ' .  $facture->prenom, 0, 1, 'C');
         $pdf->SetFont('Arial', '', 9);
         $pdf->SetXY(130, 63); // Remontée
         $pdf->MultiCell(58, 5, '', 0, 'C');
@@ -144,25 +128,12 @@ class EtatFactureController extends Controller
 
         // Fax
         $pdf->SetXY(140, 66); // Positionnez le curseur à 10 mm depuis le bord gauche
-        $pdf->Cell(48, 5, 'Fax : ' . $facture->fax ?? 'rien', 0, 1, 'L');
-
-
-        // Texte en bas
-        $pdf->SetFont('Arial', '', 8);
-        $pdf->SetXY(150, 70); // Ajuster la position en bas de la page
-        $pdf->Cell(12, 5, utf8_decode('Membre adhérent de la structure exportatrice agréée :'), 0, 0, 'C');
-
+        $pdf->Cell(48, 5, 'Fax : ' . $facture->fax, 0, 1, 'L');
 
         $margeHaute = 2;
         $pdf->SetXY(62, 56 + $margeHaute); // Marge ajoutée avant "N compte contribuable"
         $pdf->SetFont('Arial', 'B', 9);
-        $pdf->Cell(50, 6, utf8_decode('N° C.C : ' . $facture->NumCpteContribuable), 0, 1, 'C');
-
-        // numero R.C.C.M
-        $pdf->SetXY(62, 64); // Marge ajoutée avant "N compte contribuable"
-        $pdf->SetFont('Arial', 'B', 9);
-        $pdf->Cell(50, 6, utf8_decode('R.C.C.M:' . $facture->NumCpteContribuable), 0, 1, 'C');
-
+        $pdf->Cell(50, 6, utf8_decode('Adresse : ' . $facture->adresse), 0, 1, 'C');
 
 
         $pdf->SetLineWidth(0.1);
@@ -186,42 +157,80 @@ class EtatFactureController extends Controller
         $pdf->SetXY(90, 80);
         $pdf->Cell(70, 8, utf8_decode("Catégorie"), 0, 0, 'C'); // Colonne Élément (élargie à 70)
         $pdf->SetXY(140, 80);
-        $pdf->Cell(25, 8, "Prix Unit. HT", 0, 0, 'C'); // Colonne PU HT (réduite à 25)
+        $pdf->Cell(25, 8, "Prix Unit. HT (CFA)", 0, 0, 'C'); // Colonne PU HT (réduite à 25)
         $pdf->SetXY(165, 80);
-        $pdf->Cell(40, 8, "Montant Hors Taxes", 0, 0, 'C'); // Colonne Montant HT (réduite à 40)
+        $pdf->Cell(40, 8, "Montant HT (CFA)", 0, 0, 'C'); // Colonne Montant HT (réduite à 40)
 
         $yPosition = 95;
 
-        foreach ($factureLigne as $detail) {
-            // Quantité
-            $pdf->SetXY(5, $yPosition);
-            $pdf->Cell(20, 8, number_format($detail->quantite, 0, '.', ' '), 0, 0, 'R');
 
-            // Référence
-            $pdf->SetXY(25, $yPosition);
-            $pdf->Cell(70, 8, utf8_decode($detail->product->libelleproduct), 0, 0, 'L');
 
-            // Élément
-            $pdf->SetXY(110, $yPosition);
+        if (str_starts_with($codefacture, 'VP')) {
+            foreach ($factureLigne as $detail) {
+                // Quantité
+                $pdf->SetXY(5, $yPosition);
+                $pdf->Cell(20, 8, number_format($detail->quantite, 0, '.', ' '), 0, 0, 'R');
 
-            $pdf->Cell(70, 8, utf8_decode($detail->product->category->libellecategorieproduct), 0, 0, 'L');
+                // Référence
+                $pdf->SetXY(25, $yPosition);
+                $pdf->Cell(70, 8, utf8_decode($detail->product->libelleproduct), 0, 0, 'L');
 
-            // Prix Unitaire
-            $pdf->SetXY(149, $yPosition);
-            $pdf->Cell(25, 8, number_format($detail->prix_unitaire, 0, '.', ' '), 0, 0, 'C');
+                // Élément
+                $pdf->SetXY(110, $yPosition);
 
-            // Montant HT
-            $pdf->SetXY(180, $yPosition);
-            $pdf->Cell(40, 8, number_format($detail->montant_ttc, 0, '.', ' '), 0, 0, 'C');
+                $pdf->Cell(70, 8, utf8_decode($detail->product->category->libellecategorieproduct), 0, 0, 'L');
 
-            // Ajouter une ligne supplémentaire en dessous pour plus de détails (par exemple, RefSONACO)
-            $yPosition += 4;
-            $pdf->SetXY(25, $yPosition);
-            $pdf->Cell(85, 8, utf8_decode($detail->RefSONACO), 0, 0, 'L');
+                // Prix Unitaire
+                $pdf->SetXY(149, $yPosition);
+                $pdf->Cell(25, 8, number_format($detail->prix_unitaire, 0, '.', ' '), 0, 0, 'C');
 
-            // Espacement pour la prochaine ligne principale
-            $yPosition += 6;
+                // Montant HT
+                $pdf->SetXY(180, $yPosition);
+                $pdf->Cell(40, 8, number_format($detail->montant_ttc, 0, '.', ' '), 0, 0, 'C');
+
+                // Ajouter une ligne supplémentaire en dessous pour plus de détails (par exemple, RefSONACO)
+                $yPosition += 4;
+                $pdf->SetXY(25, $yPosition);
+                $pdf->Cell(85, 8, utf8_decode($detail->RefSONACO), 0, 0, 'L');
+
+                // Espacement pour la prochaine ligne principale
+                $yPosition += 6;
+            }
+        } elseif (str_starts_with($codefacture, 'AC')) {
+
+            foreach ($factureLigne as $detail) {
+                // Quantité
+                $pdf->SetXY(5, $yPosition);
+                $pdf->Cell(20, 8, number_format($detail->quantite, 0, '.', ' '), 0, 0, 'R');
+
+                // Référence
+                $pdf->SetXY(25, $yPosition);
+                $pdf->Cell(70, 8, utf8_decode($detail->designation), 0, 0, 'L');
+
+                // Élément
+                $pdf->SetXY(110, $yPosition);
+
+                $pdf->Cell(70, 8, utf8_decode(''), 0, 0, 'L');
+
+                // Prix Unitaire
+                $pdf->SetXY(149, $yPosition);
+                $pdf->Cell(25, 8, number_format($detail->prix_unitaire, 0, '.', ' '), 0, 0, 'C');
+
+                // Montant HT
+                $pdf->SetXY(180, $yPosition);
+                $pdf->Cell(40, 8, number_format($detail->montant_ttc, 0, '.', ' '), 0, 0, 'C');
+
+                // Ajouter une ligne supplémentaire en dessous pour plus de détails (par exemple, RefSONACO)
+                $yPosition += 4;
+                $pdf->SetXY(25, $yPosition);
+                $pdf->Cell(85, 8, utf8_decode($detail->RefSONACO), 0, 0, 'L');
+
+                // Espacement pour la prochaine ligne principale
+                $yPosition += 6;
+            }
+        } else {
         }
+
 
 
 
@@ -238,82 +247,38 @@ class EtatFactureController extends Controller
         $pdf->Ln(); // Nouvelle ligne
         $pdf->SetFont('Arial', '', 8);
         $pdf->SetXY(5, 195); // Position pour les valeurs
-        $pdf->Cell(20, 6, number_format($facture->TotalHT, 0, '.', ' '), 1, 0, 'C');  // Première colonne
+        $pdf->Cell(20, 6, number_format($facture->montantht, 0, '.', ' '), 1, 0, 'C');  // Première colonne
         $pdf->Cell(20, 6, "18%", 1, 0, 'C');  // Deuxième colonne
-        $pdf->Cell(20, 6, number_format($facture->TotalHT * 0.18, 0, '.', ' '), 1, 0, 'C'); // Troisième colonne
+        $pdf->Cell(20, 6, number_format($facture->montanttva, 0, '.', ' '), 1, 0, 'C'); // Troisième colonne
 
 
 
         //pieds du tableau à droite
 
-        $montantTVA =  $facture->TotalHT * 0.18;
-        $motantADSI = ($facture->TotalHT + $montantTVA) * 0.05;
 
-        $totalttc =  number_format($montantTVA + $motantADSI + $facture->TotalHT, '0', ' .', ' ');
 
         $pdf->SetFont('Arial', 'B', 8);
         $pdf->SetXY(140, 189); // Position initiale
         $pdf->Cell(30, 6, "TOTAL HT", 1, 0, 'C');
         // Cellule bordure avec texte aligné à droite
-        $pdf->Cell(35, 6, number_format($facture->TotalHT, 0, '.', ' '), 1, 1, 'R');
+        $pdf->Cell(35, 6, number_format($facture->montantht, 0, '.', ' '), 1, 1, 'R');
 
 
         $pdf->SetXY(140, 195); // Remontée
         $pdf->Cell(30, 6, "TVA", 1, 0, 'C');
         // Cellule bordure avec texte aligné à droite
-        $pdf->Cell(35, 6, number_format($montantTVA, 0, '.', ' '), 1, 1, 'R');
+        $pdf->Cell(35, 6, number_format($facture->montanttva, 0, '.', ' '), 1, 1, 'R');
 
         $pdf->SetXY(140, 201); // Remontée
-        $pdf->Cell(30, 6, "TOTAL TTC", 1, 0, 'C');
-        // Cellule bordure avec texte aligné à droite
-        $pdf->Cell(35, 6, number_format($facture->TotalTTC, 0, '.', ' '), 1, 1, 'R');
-
-        // Nouvelle ligne AIRSI
-        $pdf->SetXY(140, 207); // Position ajustée
-        $pdf->Cell(30, 6, "AIRSI", 1, 0, 'C');
-        // Cellule bordure avec texte aligné à droite
-        $pdf->Cell(35, 6, number_format(($facture->TotalHT + $facture->TotalHT) * 0.18 * $facture->TauxTaxe ?? 0, 0, '.', ' '), 1, 1, 'R');
-
-        $pdf->SetXY(140, 213); // Remontée
         $pdf->Cell(30, 6, "NET A PAYER", 1, 0, 'C');
         // Cellule bordure avec texte aligné à droite
-        $pdf->Cell(35, 6, number_format(('45.00'), 0, '.', ' '), 1, 1, 'R');
+        $pdf->Cell(35, 6, number_format($facture->montantttc, 0, '.', ' '), 1, 1, 'R');
 
-        $borderX = 4;
-        $borderY = 221; // Position Y du rectangle remontée de 10
-        $borderWidth = 199;
-        $borderHeight = 17;
-
-        $pdf->SetLineWidth(0);
-        $pdf->Rect($borderX, $borderY, $borderWidth, $borderHeight, 'D');
-
-        $pdf->SetLineWidth(1.5);
-        $pdf->Line($borderX + $borderWidth, $borderY, $borderX + $borderWidth, $borderY + $borderHeight);
-        $pdf->Line($borderX, $borderY + $borderHeight, $borderX + $borderWidth, $borderY + $borderHeight);
-
-        $pdf->SetFont('Arial', 'B', 10);
-        $pdf->SetXY(5, 223); // Remontée de 10 unités
-        $pdf->Cell(50, 5, utf8_decode("Mode de  règlement :"), 0, 0, 'L');
-        $pdf->SetFont('Arial', '', 10);
-
-        $pdf->Cell(60, 5, utf8_decode($facture->modereglement->LibReglement ?? ''), 0, 1, 'L');
-
-        $pdf->SetFont('Arial', 'B', 10);
-        $pdf->SetX(5); // Remontée de 5 unités
-        $pdf->Cell(50, 5, "Regime de vente :", 0, 0, 'L');
-        $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(60, 5, utf8_decode(''), 0, 1, 'L');
-
-        $pdf->SetFont('Arial', 'B', 10);
-        $pdf->SetX(5); // Remontée de 5 unités
-        $pdf->Cell(50, 5, utf8_decode("Delai de règlement :"), 0, 0, 'L');
-        $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(60, 5, "60 jours date de facture", 0, 1, 'L');
 
         // exemplaire comptabilité
         $pdf->SetXY(160, 244); // Décalage vers le bas
         $pdf->SetFont('Arial', 'B', 10);
-        $pdf->Cell(40, 5, "EXEMPLAIRE COMPTABILITE", 0, 0, 'R');
+        $pdf->Cell(40, 5, "FACTURE DE COMPTABILITE", 0, 0, 'R');
 
         return response($pdf->Output('S', 'facture.pdf'), 200)
             ->header('Content-Type', 'application/pdf')
@@ -504,13 +469,13 @@ class EtatFactureController extends Controller
         $pdf->Ln(5); // Ajoute un petit espace après la ligne
 
         // Seconde ligne
-        $pdf->Cell(95, 6, utf8_decode($factures->sum('montantttc')) . ' ' . 'FCFA', 0, 1, 'L');
+        $pdf->Cell(95, 6, utf8_decode(number_format($factures->sum('montantttc'), '0', '.', ' ')) . ' ' . 'FCFA', 0, 1, 'L');
 
         // Ajouter un trait horizontal gris juste après
         $pdf->SetDrawColor(192, 192, 192); // Couleur grise
         $pdf->Line(10, $pdf->GetY(), 290, $pdf->GetY()); // Ligne horizontale
 
-        $pdf->Ln(5); // Ajout d'un espace après la ligne horizontale
+        $pdf->Ln(5); // Ajout d'un espace après la ligne horizowntale
 
         // En-tête du tableau (fond gris)
         $pdf->SetFont('Arial', '', 10); // Non gras
@@ -546,7 +511,7 @@ class EtatFactureController extends Controller
         foreach ($facturesGroupedByMonth as $month => $monthlyFactures) {
             // Ajout du titre "Botuique Officielle : PARIS STORE" pour chaque mois
             $pdf->SetFont('Arial', '', 10);
-            $pdf->Cell(0, 6, utf8_decode('Botuique Officielle : PARIS STORE '), 0, 1, 'L');
+            $pdf->Cell(0, 6, utf8_decode('Boutique Officielle : PARIS STORE '), 0, 1, 'L');
             $pdf->SetFont('Arial', 'B', 10);
             $pdf->Cell(0, 6, utf8_decode('Par mois : ' . $month), 0, 1, 'L'); // Affiche le mois et l'année
 
@@ -558,9 +523,9 @@ class EtatFactureController extends Controller
                 $pdf->Cell($widths[0], 7, utf8_decode($facture->numvente), 1, 0, 'C');
                 $pdf->Cell($widths[1], 7, utf8_decode(\Str::limit($facture->libelleclient, 12)), 1, 0, 'C');
                 $pdf->Cell($widths[2], 7, utf8_decode($facture->telephone), 1, 0, 'C');
-                $pdf->Cell($widths[3], 7, utf8_decode((string)$facture->montantht), 1, 0, 'C');
-                $pdf->Cell($widths[4], 7, utf8_decode((string)$facture->montanttva), 1, 0, 'C');
-                $pdf->Cell($widths[5], 7, utf8_decode((string)$facture->montantttc), 1, 0, 'C');
+                $pdf->Cell($widths[3], 7, utf8_decode(number_format($facture->montantht, '0', '.', ' ') . ' FCA'), 1, 0, 'C');
+                $pdf->Cell($widths[4], 7, utf8_decode(number_format($facture->montanttva, '0', '.', ' ') . ' FCA'), 1, 0, 'C');
+                $pdf->Cell($widths[5], 7, utf8_decode(number_format($facture->montantttc, '0', '.', ' ') . ' FCA'), 1, 0, 'C');
                 $pdf->Cell($widths[6], 7, utf8_decode($facture->created_at->format('d/m/Y')), 1, 0, 'C');  // Format de la date
                 $pdf->Ln(); // Nouvelle ligne après chaque facture
 

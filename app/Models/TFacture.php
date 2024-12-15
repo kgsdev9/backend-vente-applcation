@@ -16,10 +16,12 @@ class TFacture extends Model
         'libelleclient',
         'telephone',
         'email',
+        'nom',
+        'prenom',
         'codeclient',
         'adresse',
         'date_echance',
-        'mode_reglement_id',
+        'mode_reglement_id', 
         'client_id',
         'codedevise_id',
         'user_id',
@@ -50,6 +52,4 @@ class TFacture extends Model
     {
         return $this->belongsTo(TmodeReglement::class, 'mode_reglement_id');
     }
-
-
 }

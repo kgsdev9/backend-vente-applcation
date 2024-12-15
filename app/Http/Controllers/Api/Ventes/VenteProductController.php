@@ -25,8 +25,7 @@ class VenteProductController extends Controller
             ->where('numvente', 'like', 'vp%')
             ->orderByDesc('created_at');
 
-        if ($request->has('datevente'))
-        {
+        if ($request->has('datevente')) {
             $query->whereDate('created_at', '=', $request->datevente);
         }
 
@@ -79,6 +78,7 @@ class VenteProductController extends Controller
      */
     public function store(Request $request)
     {
+
         // Début de la transaction pour garantir la consistance des données
         \DB::beginTransaction();
 
@@ -87,10 +87,11 @@ class VenteProductController extends Controller
             $facture = TFacture::create([
                 'numvente' => $this->generateIdentifier('VP', date('y')),
                 'adresse' => $request->input('adresse'),
-                'libelleclient' => $request->input('nom') . ' ' . $request->input('prenom'),
-                'montantht' => $request->input('montantht'),
-                'montanttva' => $request->input('montanttva'),
-                'montantttc' => $request->input('totalttc'),
+                'nom' => $request->input('nom'),
+                'prenom' => $request->input('prenom'),
+                'montantht' => str_replace(',', '.', $request->input('montantht')),
+                'montanttva' => str_replace(',', '.', $request->input('montanttva')),
+                'montantttc' => str_replace(',', '.', $request->input('totalttc')),
                 'telephone' => $request->input('telephone'),
             ]);
 
@@ -146,25 +147,6 @@ class VenteProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function edit($vente)
-    // {
-
-    //     $ventes = TFacture::where('numvente', $vente)->first();
-    //     // $venteslignes = TfactureLigne::where('numvente', $ventes->numvente)->get();
-
-    //     $venteslignes = TfactureLigne::with(['product' => function ($query) {
-    //         $query->select('qtedisponible');
-    //     }])
-    //     ->where('numvente', $ventes->numvente)
-    //     ->get();
-
-
-    //     return response()->json([
-    //         'ventes'=> $ventes,
-    //         'venteslignes'=> $venteslignes,
-    //     ]);
-
-    // }
 
 
     public function edit($vente)
@@ -217,7 +199,8 @@ class VenteProductController extends Controller
             // Mettre à jour les informations principales de la facture
             $facture->update([
                 'adresse' => $request->input('adresse'),
-                'libelleclient' => $request->input('nom') . ' ' . $request->input('prenom'),
+                'nom' => $request->input('nom'),
+                'prenom' => $request->input('prenom'),
                 'montantht' => $request->input('montantht'),
                 'montanttva' => $request->input('montanttva'),
                 'montantttc' => $request->input('totalttc'),
@@ -262,8 +245,10 @@ class VenteProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($numvente)
     {
-        //
+        $vente = TFacture::where('numvente', $numvente)->first();
+        $vente->delete();
+        return response()->json(['message' => 'vente supprimé avec succés'], 200);
     }
 }
